@@ -23,7 +23,7 @@ const options = yargs
     }
 
     if (argv.push) {
-      updateCommand = `; git push`
+      updateCommand = `${updateCommand} ; git push`
     }
 
     exec(updateCommand, (error, stdout, stderr) => {
