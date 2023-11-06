@@ -7,6 +7,6 @@
     "osuny": "./bin/index.js"
   },
   "dependencies": {
-    "yargs": "^17.6.2"
+    "shelljs": "^0.8.5"
   }
 }

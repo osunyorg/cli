@@ -10,14 +10,28 @@ npm install -g .
 
 ## Usage
 
-### Mise à jour du thème d'un site
+### Cloner tous les repo github
+
+#### Setup
+
+Il faut créer la liste des répertoires dans data/repositories.js :
 
 ```
-osuny update [chemin du site]
+module.exports = [
+  "https://github.com/noesya/osuny-example",
+  "https://github.com/noesya/osuny-example-journal",
+  "..."
+]
 ```
 
-Exemple à la racine d'un site web : 
+> La liste des répertoires git est récupérable une fois loggé sur ```votre-instance-osuny.fr/server/websites.txt```
 
-```
-osuny update
-```
+#### Utilisation
+
+Pour cloner tous les répertoires de la liste, naviguez dans le dossier où vous souhaitez les projets puis : 
+
+```osuny clone-all```
+
+ou passez le dossier directement dans la commande
+
+```osuny clone-all [path]```

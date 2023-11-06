@@ -1,46 +1,34 @@
 #!/usr/bin/env node
 
-const yargs = require("yargs");
-const { exec } = require("child_process");
+const shell = require("shelljs");
 
-let updateCommand = `git submodule foreach git pull || echo 'canceled' && git commit -am 'theme' && git pull`;
+const repositories = require("../data/repositories");
 
-const options = yargs
-  .usage('$0 <cmd> [args]')
-  .command('update [path] [push]', "update website's theme", (yargs) => {
-    yargs.positional('path', {
-      type: 'string',
-      describe: 'path to website'
-    })
-    yargs.positional('push', {
-      type: 'boolean',
-      describe: 'push commit'
-    })
-  }, (argv) => {
+// commands
+const commands = {
+  "clone-all": function(argv) {
+    const path = argv[3] || '.';
 
-    if (argv.path) {
-      updateCommand = `cd ${argv.path} && ${updateCommand}`
-    }
-
-    if (argv.push) {
-      updateCommand = `${updateCommand} ; git push`
-    }
-
-    exec(updateCommand, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`error: ${error.message}`);
-        return;
-      }
-  
-      if (stderr) {
-        console.error(`stderr: ${stderr}`);
-        return;
-      }
-  
-      if (stdout) {
-        console.log(`stdout:\n${stdout}`);
-      }
+    shell.cd(`${path}`);
+    repositories.forEach(repository => {
+      console.log(`osuny cloning ${repository}`);
+      shell.exec(`git clone --recurse-submodules ${repository}`);
     });
-  })
-  .help(true)
-  .argv;
+  },
+  "update-all": function(argv) {
+    const path = argv[3] || '.';
+
+    shell.set('-e'); // exit upon first error
+    shell.cd(`${path}`);
+    shell.exec("find . -type d -depth 1 -exec 'git --git-dir={}/.git --work-tree=$PWD/{} pull origin main --recurse-submodules \;'")
+  }
+}
+
+const command = process.argv[2];
+
+if (commands[command]) {
+  console.log(`Osuny start ${command}`);
+  commands[command](process.argv);
+} else {
+  console.log(`Osuny command doesn't exist ${command}`);
+}
