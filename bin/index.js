@@ -19,8 +19,15 @@ const commands = {
     const path = argv[3] || '.';
 
     shell.set('-e'); // exit upon first error
+
     shell.cd(`${path}`);
-    shell.exec("find . -type d -depth 1 -exec 'git --git-dir={}/.git --work-tree=$PWD/{} pull origin main --recurse-submodules \;'")
+
+    shell.ls('.').forEach(function (folder) {
+      console.log(folder)
+      shell.cd(folder)
+      shell.exec('git pull origin main --recurse-submodules \;')
+      shell.cd('..')
+    });
   }
 }
 
