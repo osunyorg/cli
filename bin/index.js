@@ -39,6 +39,9 @@ const commands = {
 
     shell.cd(path)
     shell.exec('git pull origin main --recurse-submodules \;')
+    shell.cd('themes/osuny-hugo-theme-aaa')
+    shell.exec('git checkout main && git pull \;')
+
   },
   "serve": function(argv) {
     const networkInterfaces = os.networkInterfaces();
