@@ -26,6 +26,7 @@ const commands = {
     shell.ls('.').forEach(function (folder) {
       shell.cd(folder)
       shell.exec('git pull origin main --recurse-submodules \;')
+      shell.exec('git submodule update \;')
       shell.cd('..')
     });
   },
