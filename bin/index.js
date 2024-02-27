@@ -24,6 +24,9 @@ const commands = {
     shell.cd(path);
 
     shell.ls('.').forEach(function (folder) {
+      console.log(`--------------------------------------------`);
+      console.log(`| ${folder} - Osuny updating`);
+      console.log(`--------------------------------------------`);
       shell.cd(folder)
       shell.exec('git pull origin main --recurse-submodules \;')
       shell.exec('git submodule update \;')
