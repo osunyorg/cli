@@ -54,7 +54,6 @@ const commands = {
     } else {
       console.log('If you want to publish the updated theme use "-p" or "--push" option')
     }
-
   },
   "serve": function(argv) {
     const networkInterfaces = os.networkInterfaces();
