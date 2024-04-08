@@ -35,6 +35,7 @@ const commands = {
   },
   "update": function(argv) {
     const path = argv[3];
+
     shell.set('-e'); // exit upon first error
 
     if (!path) {
@@ -42,9 +43,17 @@ const commands = {
     }
 
     shell.cd(path)
+    shell.exec('git checkout main \;')
     shell.exec('git pull origin main --recurse-submodules \;')
     shell.cd('themes/osuny-hugo-theme-aaa')
     shell.exec('git checkout main && git pull \;')
+
+    if (argv.includes('-p') || argv.includes('--push')) {
+      shell.cd('..')
+      shell.exec('git commit -am "theme" && git push \;')
+    } else {
+      console.log('If you want to publish the updated theme use "-p" or "--push" option')
+    }
 
   },
   "serve": function(argv) {
