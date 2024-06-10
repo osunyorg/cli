@@ -4,6 +4,20 @@ const shell = require("shelljs");
 const repositories = require("../data/repositories");
 const os = require('os');
 
+const updateThemeAction = function (path, push = false) {
+  shell.cd(path)
+  shell.exec('git checkout main \;')
+  shell.exec('git pull origin main --recurse-submodules \;')
+  shell.cd('themes/osuny')
+  shell.exec('git checkout main && git pull \;')
+
+  if (push) {
+    shell.cd('..')
+    shell.exec('git commit -am "theme" && git push \;')
+  } else {
+    console.log('If you want to publish the updated theme use "-p" or "--push" option')
+  }
+}
 
 // commands
 const commands = {
@@ -34,7 +48,8 @@ const commands = {
     });
   },
   "update": function(argv) {
-    const path = argv[3];
+    const path = argv[3],
+      push = argv.includes('-p') || argv.includes('--push');
 
     shell.set('-e'); // exit upon first error
 
@@ -42,18 +57,7 @@ const commands = {
       return console.log('need path');
     }
 
-    shell.cd(path)
-    shell.exec('git checkout main \;')
-    shell.exec('git pull origin main --recurse-submodules \;')
-    shell.cd('themes/osuny-hugo-theme-aaa')
-    shell.exec('git checkout main && git pull \;')
-
-    if (argv.includes('-p') || argv.includes('--push')) {
-      shell.cd('..')
-      shell.exec('git commit -am "theme" && git push \;')
-    } else {
-      console.log('If you want to publish the updated theme use "-p" or "--push" option')
-    }
+    updateThemeAction(path, push)
   },
   "serve": function(argv) {
     const networkInterfaces = os.networkInterfaces();
