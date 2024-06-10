@@ -1,37 +1,46 @@
-# Osuny CLI 
+# Osuny Command-Line-Interface 
 
-CLI permettant la gestion des thèmes et website osuny
+CLI permettant la gestion des thèmes et sites Web Osuny.
 
-## Installation globale
+## Construction du module avec Cobra et Go
 
+```bash
+go install github.com/spf13/cobra-cli@latest
 ```
-npm install -g .
-```
+Il semble qu'il y ait un pb de chemin.
 
-## Usage
-
-### Cloner tous les repo github
-
-#### Setup
-
-Il faut créer la liste des répertoires dans data/repositories.js :
-
-```
-module.exports = [
-  "https://github.com/noesya/osuny-example",
-  "https://github.com/noesya/osuny-example-journal",
-  "..."
-]
+```bash
+go init github.com/osunyorg/cli
+go mod tidy
+go get -u github.com/spf13/cobra@latest
 ```
 
-> La liste des répertoires git est récupérable une fois loggé sur ```votre-instance-osuny.fr/server/websites.txt```
+L'installation de Cobra-CLI se fait avec 
+```bash
+go install github.com/spf13/cobra-cli@latest
+```
 
-#### Utilisation
+Il a fallu ajouter ça au fichier `.zshrc` pour que ça se charge
+```
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$PATH
+```
 
-Pour cloner tous les répertoires de la liste, naviguez dans le dossier où vous souhaitez les projets puis : 
+Ensuite, création du fichier .cobra.yaml
+```yaml
+author: noesya <contact@noesya.coop>
+year: 2024
+license: MIT
+useViper: true
+```
 
-```osuny clone-all```
+Initialisation de l'app
+```bash
+cobra-cli init --config .cobra.yaml
+```
 
-ou passez le dossier directement dans la commande
+Ajout d'une commande
+```bash
+cobra-cli add watch --config .cobra.yaml
+```
 
-```osuny clone-all [path]```
