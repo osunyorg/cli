@@ -48,14 +48,10 @@ const commands = {
     });
   },
   "update": function(argv) {
-    const path = argv[3],
+    const path = argv[3] || ".",
       push = argv.includes('-p') || argv.includes('--push');
 
     shell.set('-e'); // exit upon first error
-
-    if (!path) {
-      return console.log('need path');
-    }
 
     updateThemeAction(path, push)
   },
