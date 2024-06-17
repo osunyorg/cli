@@ -62,8 +62,7 @@ const commands = {
     shell.exec(`git clone ${repo} --recurse-submodules`);
     shell.cd(folderName);
     shell.exec(`code .`);
-    const result = shell.exec(`yarn upgrade && yarn osuny dev`, { async: true });
-    console.log(result)
+    shell.exec(`yarn upgrade && yarn osuny dev`, { async: true });
     shell.exec(`open -a "Google Chrome" http://localhost:1313`);
 
   },
