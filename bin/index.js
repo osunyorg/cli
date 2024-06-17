@@ -58,13 +58,23 @@ const commands = {
 
     shell.set('-e');
     shell.cd(preferences.websitesPath);
-    shell.exec(`pwd`);
-    shell.exec(`git clone ${repo} --recurse-submodules`);
-    shell.cd(folderName);
+    // shell.exec(`git clone ${repo} --recurse-submodules`);
+    this.run(folderName);
+  },
+  "run": function(site) {
+    if (typeof site == 'object') {
+      site = site[3]
+    }
+
+    if (!site) {
+      return console.log('Need a site name (folder path)');
+    }
+
+    shell.set('-e');
+    shell.cd(preferences.websitesPath + '/' + site);
     shell.exec(`code .`);
     shell.exec(`yarn upgrade && yarn osuny dev`, { async: true });
     shell.exec(`open -a "Google Chrome" http://localhost:1313`);
-
   },
   "update": function(argv) {
     const path = argv[3] || ".",
