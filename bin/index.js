@@ -2,6 +2,7 @@
 
 const shell = require("shelljs");
 const repositories = require("../data/repositories");
+const preferences = require("../data/preferences");
 const os = require('os');
 
 const updateThemeAction = function (path, push = false) {
@@ -46,6 +47,25 @@ const commands = {
       shell.exec('git submodule update \;')
       shell.cd('..')
     });
+  },
+  "clone": function(argv) {
+    if (!argv[3]) {
+      return console.log('Need a repository url');
+    }
+
+    const repo = argv[3],
+          folderName = argv[3].replace(/\/$/, "").split('/').at(-1)
+
+    shell.set('-e');
+    shell.cd(preferences.websitesPath);
+    shell.exec(`pwd`);
+    shell.exec(`git clone ${repo} --recurse-submodules`);
+    shell.cd(folderName);
+    shell.exec(`code .`);
+    const result = shell.exec(`yarn upgrade && yarn osuny dev`, { async: true });
+    console.log(result)
+    shell.exec(`open -a "Google Chrome" http://localhost:1313`);
+
   },
   "update": function(argv) {
     const path = argv[3] || ".",

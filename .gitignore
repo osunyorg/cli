@@ -1,3 +1,4 @@
 node_modules
 data/repositories.js
+data/preferences.js
 .DS_Store

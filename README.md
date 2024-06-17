@@ -14,7 +14,9 @@ npm install -g .
 
 #### Setup
 
-Il faut créer la liste des répertoires dans data/repositories.js :
+Il faut créer le fichier et y mettre ses préférences dans `data/repositories.js`.
+
+Il faut créer la liste des répertoires dans `data/repositories.js` :
 
 ```
 module.exports = [
@@ -23,6 +25,8 @@ module.exports = [
   "..."
 ]
 ```
+
+
 
 > La liste des répertoires git est récupérable une fois loggé sur ```votre-instance-osuny.fr/server/websites.txt```
 
