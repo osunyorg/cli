@@ -42,10 +42,8 @@ const commands = {
       console.log(`--------------------------------------------`);
       console.log(`| ${folder} - Osuny updating`);
       console.log(`--------------------------------------------`);
-      shell.cd(folder)
-      shell.exec('git pull origin main --recurse-submodules \;')
-      shell.exec('git submodule update \;')
-      shell.cd('..')
+      updateThemeAction(folder)
+      shell.cd('../../..')
     });
   },
   "clone": function(argv) {
@@ -58,7 +56,7 @@ const commands = {
 
     shell.set('-e');
     shell.cd(preferences.websitesPath);
-    // shell.exec(`git clone ${repo} --recurse-submodules`);
+    shell.exec(`git clone ${repo} --recurse-submodules`);
     this.run(folderName);
   },
   "run": function(site) {
@@ -83,6 +81,12 @@ const commands = {
     shell.set('-e'); // exit upon first error
 
     updateThemeAction(path, push)
+  },
+  "u": function(argv) {
+    this.update(['', '', '.']);
+  },
+  "up": function(argv) {
+    this.update(['-p']);
   },
   "serve": function(argv) {
     const networkInterfaces = os.networkInterfaces();
