@@ -2,6 +2,7 @@
 
 const shell = require("shelljs");
 const repositories = require("../data/repositories");
+const repositoriesInProduction = require("../data/repositories-in-production");
 const preferences = require("../data/preferences");
 const os = require('os');
 
@@ -20,6 +21,43 @@ const updateThemeAction = function (path, push = false) {
   }
 }
 
+const migrateAction = function (path) {
+  let hasLayouts = {}, hasTheme = {}, buildResult = {};
+
+  console.log(path)
+  shell.cd(path);
+
+  shell.exec("git pull");
+
+  hasLayouts = shell.exec('[ -d "./layouts" ] ')
+  if (hasLayouts.code === 0) {
+    shell.cd("themes/osuny");
+    shell.exec("git checkout script-for-migrations");
+    shell.exec("git pull");
+    shell.cd("../..");
+    shell.exec("yarn install");
+    shell.exec("yarn upgrade osuny");
+    shell.exec("yarn osuny migrate");
+    buildResult = shell.exec("hugo");
+    if (buildResult.code != 0) {
+      console.log('build failed')
+    }
+
+    shell.exec("git add . && git status");
+    console.log("\n🎉 Migration terminée !\n")
+
+  } else {
+    console.log("\n😶 Pas de dossier 'layouts' à la racine du site.\n")
+  }
+
+  hasTheme = shell.exec(' [ $(find ./themes/ -mindepth 1 -maxdepth 1 -type d | wc -l) -gt 1 ]; ')
+  if (hasTheme.code == 0) {
+    console.log('\n🐣 Ce site contient un theme !\n')
+  }
+
+  console.log('build succeed')
+}
+
 // commands
 const commands = {
   "clone-all": function(argv) {
@@ -27,6 +65,15 @@ const commands = {
 
     shell.cd(path);
     repositories.forEach(repository => {
+      console.log(`osuny cloning ${repository}`);
+      shell.exec(`git clone --recurse-submodules ${repository}`);
+    });
+  },
+  "clone-sites-in-production": function(argv) {
+    const path = argv[3] || preferences.websitesInProductionPath;
+
+    shell.cd(path);
+    repositoriesInProduction.forEach(repository => {
       console.log(`osuny cloning ${repository}`);
       shell.exec(`git clone --recurse-submodules ${repository}`);
     });
@@ -101,12 +148,38 @@ const commands = {
     }
 
     if (localIP) {
-      shell.exec(`hugo serve --bind ${localIP} --baseUrl http://${localIP} -p 8000`);
+      var cmd = `hugo serve --bind ${localIP} -b http://${localIP} -p 8000`
+      shell.exec(cmd);
+      console.log(cmd);
       console.log(`running local network on : http://${localIP}`)
     } else {
       shell.exec('hugo serve');
     }
-  }
+  },
+  "migrate": function(argv) {
+    const path = argv[3] || ".";
+    migrateAction(path);
+  },
+  "migrate-all": function(argv) {
+    const path = argv[3] || '.';
+    let result;
+
+    shell.set('-e'); // exit upon first error
+
+    shell.cd(path);
+
+    shell.ls('.').forEach((folder, i) => {
+
+      if (i > 3) {
+        return;
+      }
+      console.log(`--------------------------------------------`);
+      console.log(`| ${folder} - Osuny migrate`);
+      console.log(`--------------------------------------------`);
+      result = migrateAction(folder);
+      shell.cd('..');
+    });
+  },
 }
 
 const command = process.argv[2];
