@@ -32,7 +32,7 @@ const migrateAction = function (path) {
   hasLayouts = shell.exec('[ -d "./layouts" ] ')
   if (hasLayouts.code === 0) {
     shell.cd("themes/osuny");
-    shell.exec("git checkout script-for-migrations");
+    shell.exec("git checkout main");
     shell.exec("git pull");
     shell.cd("../..");
     shell.exec("yarn install");
