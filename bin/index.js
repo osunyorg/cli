@@ -24,13 +24,9 @@ const updateThemeAction = function (path, push = false) {
 const migrateAction = function (path) {
   let hasLayouts = {}, hasTheme = {}, buildResult = {};
 
-  shell.cd(path);
+  updateThemeAction(path);
 
-  shell.exec("git pull");
-  shell.cd("themes/osuny");
-  shell.exec("git checkout main");
-  shell.exec("git pull");
-  shell.cd("../..");
+  shell.cd('../..');
 
   hasLayouts = shell.exec('[ -d "./layouts" ] ')
   if (hasLayouts.code === 0) {
