@@ -2,6 +2,7 @@
 
 const shell = require("shelljs");
 const repositories = require("../data/repositories");
+const repositoriesNotInProduction = require("../data/repositories-not-in-production");
 const repositoriesInProduction = require("../data/repositories-in-production");
 const preferences = require("../data/preferences");
 const os = require('os');
@@ -10,11 +11,21 @@ const updateThemeAction = function (path, push = false) {
   shell.cd(path)
   shell.exec('git checkout main \;')
   shell.exec('git pull origin main --recurse-submodules \;')
-  shell.cd('themes/osuny')
-  shell.exec('git checkout main && git pull \;')
+
+  shell.exec(`echo "22" > .nvmrc`);
+
+  shell.cd('themes')
+
+  shell.ls('.').forEach((folder) => {
+    console.log(folder)
+    shell.cd(folder);
+    shell.exec('git checkout main && git pull \;')
+    shell.cd('..');
+  });
+
+  shell.cd('..');
 
   if (push) {
-    shell.cd('..')
     shell.exec('git commit -am "theme" && git push \;')
   } else {
     console.log('If you want to publish the updated theme use "-p" or "--push" option')
@@ -86,7 +97,7 @@ const commands = {
       console.log(`| ${folder} - Osuny updating`);
       console.log(`--------------------------------------------`);
       updateThemeAction(folder)
-      shell.cd('../../..')
+      shell.cd('..')
     });
   },
   "clone": function(argv) {
