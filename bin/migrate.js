@@ -1,4 +1,5 @@
 const updateSite = require("./update");
+const shell = require("shelljs");
 
 module.exports = migrateAction = function (path) {
   let hasLayouts = {}, hasTheme = {}, buildResult = {};

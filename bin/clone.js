@@ -1,3 +1,5 @@
+const shell = require("shelljs");
+
 module.exports = function (path, repositories) {
   shell.cd(path);
 
