@@ -9,6 +9,7 @@ const os = require('os');
 const updateSite = require("./update");
 const migrateSite = require("./update");
 const cloneSites = require("./clone");
+const backstop = require("./backstop");
 
 // commands
 const commands = {
@@ -124,6 +125,11 @@ const commands = {
       result = migrateSite(folder);
       shell.cd('..');
     });
+  },
+  "backstop": function(argv) {
+    const path = argv[3] || ".";
+    updateSite(path);
+    backstop(path);
   },
 }
 
