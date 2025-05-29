@@ -15,7 +15,7 @@ module.exports = {
   "scenarios": [
     {
       "label": "Osuny test",
-      "url": "http://localhost:PORT/",
+      "url": "http://localhost:PORT",
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
