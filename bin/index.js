@@ -128,9 +128,9 @@ const commands = {
   },
   "backstop": function(argv) {
     const path = argv[3] || ".";
-    const page = argv[4] || "";
+    const pages = argv[4] || "";
     updateSite(path);
-    backstop(path, page);
+    backstop(path, pages);
   },
 }
 
