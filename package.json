@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "backstopjs": "^6.3.25",
-    "node-fetch": "2",
     "shelljs": "^0.8.5"
   }
 }
