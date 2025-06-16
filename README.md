@@ -49,6 +49,9 @@ L'outil permet de tester en local un site Osuny.
 
 Il va mettre à jour automatiquement le thème et le projet en local, et lancer une comparaison avec backstop de la version du site en ligne.
 
+Le script nécessite l'installation de `yd` : `brew install yq`
+
+
 #### Usage
 
 1. Naviguer via le terminal dans le dossier du site à tester.
