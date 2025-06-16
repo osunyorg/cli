@@ -5,6 +5,7 @@ CLI permettant la gestion des thèmes et website osuny
 ## Installation globale
 
 ```
+yarn
 npm install -g .
 ```
 
