@@ -7,6 +7,7 @@
     "osuny": "./bin/index.js"
   },
   "dependencies": {
+    "backstopjs": "^6.3.25",
     "shelljs": "^0.8.5"
   }
 }

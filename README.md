@@ -39,3 +39,19 @@ Pour cloner tous les répertoires de la liste, naviguez dans le dossier où vous
 ou passez le dossier directement dans la commande
 
 ```osuny clone-all [path]```
+
+### Backstop
+
+
+#### Installation
+
+L'outil permet de tester en local un site Osuny. 
+
+Il va mettre à jour automatiquement le thème et le projet en local, et lancer une comparaison avec backstop de la version du site en ligne.
+
+#### Usage
+
+1. Naviguer via le terminal dans le dossier du site à tester.
+2. Ajouter `backstop_data` dans le fichier `.gitignore`.
+3. Lancer la commande `osuny backstop`
+4. Utiliser l'outil de comparaison pour chercher des modifications indésirables.
