@@ -15,7 +15,6 @@ async function referenceAndTest (paths, configuration) {
 function addPaths (paths, config) {
     if (paths) {
         paths = paths.split(',');
-        console.log(paths)
     }
     if (paths.length > 0) {
         addScenarios(paths, config);
@@ -28,6 +27,9 @@ function addPaths (paths, config) {
 // Add scenarios (pages) to backstop configuration
 function addScenarios(paths, configuration) {
     paths.forEach(path => {
+        if (path === "null" || !path || path === "") {
+            return;
+        }
         const scenario = configuration.scenarios[0];
         const copy = {...scenario};
         copy.label += path;
@@ -38,7 +40,7 @@ function addScenarios(paths, configuration) {
     console.log(configuration);
 }
 
-// Get default pages sample 
+// Get default pages sample
 function getSample () {
     const pathsResource = shell.exec(`wget -qO- http://localhost:${HUGO_SERVER_PORT}/sample.json`);
     if (pathsResource.stdout) {
@@ -53,7 +55,7 @@ module.exports = async function (path, paths = "") {
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
 
-    config.scenarios.forEach(scenario => { 
+    config.scenarios.forEach(scenario => {
         scenario.url = scenario.url.replace('PORT', HUGO_SERVER_PORT);
         scenario.url = scenario.url.replace(/\/$/, '');
         scenario.referenceUrl = productionUrl;
@@ -69,4 +71,3 @@ module.exports = async function (path, paths = "") {
         }
     });
 }
-
