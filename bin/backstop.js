@@ -13,6 +13,10 @@ async function referenceAndTest (paths, configuration) {
 
 // Add pages to be testing : directly by CLI or default pages sample generate by local site debug
 function addPaths (paths, config) {
+    if (paths) {
+        paths = paths.split(',');
+        console.log(paths)
+    }
     if (paths.length > 0) {
         addScenarios(paths, config);
     } else {
@@ -27,10 +31,11 @@ function addScenarios(paths, configuration) {
         const scenario = configuration.scenarios[0];
         const copy = {...scenario};
         copy.label += path;
-        copy.url += '/' + path; 
-        copy.referenceUrl += '/' + path; 
+        copy.url += path;
+        copy.referenceUrl += path;
         configuration.scenarios.push(copy);
     });
+    console.log(configuration);
 }
 
 // Get default pages sample 
@@ -45,11 +50,14 @@ function getSample () {
 
 module.exports = async function (path, paths = "") {
     shell.cd(path);
-    const productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml");
+    let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
+    productionUrl = productionUrl.replace('\n', '');
 
     config.scenarios.forEach(scenario => { 
         scenario.url = scenario.url.replace('PORT', HUGO_SERVER_PORT);
+        scenario.url = scenario.url.replace(/\/$/, '');
         scenario.referenceUrl = productionUrl;
+        scenario.referenceUrl = scenario.referenceUrl.replace(/\/$/, '');
     });
 
     shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);

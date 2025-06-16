@@ -19,7 +19,7 @@ module.exports = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "delay": 1000,
+      "delay": 3000,
       "hideSelectors": [],
       "removeSelectors": [],
       "hoverSelector": "",
