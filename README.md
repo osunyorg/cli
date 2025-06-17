@@ -4,6 +4,16 @@ CLI permettant la gestion des thèmes et website osuny
 
 ## Installation globale
 
+Il faut d'abord créer les fichiers :
+
+`
+data/preferences.js
+data/repositories-in-production.js
+data/repositories-not-in-production.js
+data/repositories.js
+`
+
+
 ```
 yarn
 npm install -g .
