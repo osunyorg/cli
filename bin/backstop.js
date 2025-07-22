@@ -54,6 +54,8 @@ module.exports = async function (path, paths = "") {
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
+    productionUrl = productionUrl.replace('"', '');
+    productionUrl = productionUrl.replace('"', '');
 
     config.scenarios.forEach(scenario => {
         scenario.url = scenario.url.replace('PORT', HUGO_SERVER_PORT);

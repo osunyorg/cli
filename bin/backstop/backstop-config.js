@@ -20,7 +20,7 @@ module.exports = {
       "readyEvent": "",
       "readySelector": "",
       "delay": 3000,
-      "hideSelectors": [],
+      "hideSelectors": ['.d-help', '.orejime-Banner'],
       "removeSelectors": [],
       "hoverSelector": "",
       "clickSelector": "",

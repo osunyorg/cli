@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const shell = require("shelljs");
-const repositories = require("../data/repositories");
-const repositoriesNotInProduction = require("../data/repositories-not-in-production");
-const repositoriesInProduction = require("../data/repositories-in-production");
-const preferences = require("../data/preferences");
+const repositories = [];
+const repositoriesNotInProduction = [];
+const repositoriesInProduction = [];
+const preferences = [];
 const os = require('os');
 const updateSite = require("./update");
 const migrateSite = require("./update");
@@ -129,7 +129,7 @@ const commands = {
   "backstop": function(argv) {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
-    updateSite(path);
+    // updateSite(path);
     backstop(path, pages);
   },
 }

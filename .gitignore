@@ -4,3 +4,4 @@ data/repositories-in-production.js
 data/repositories-not-in-production.js
 data/preferences.js
 .DS_Store
+.idea
