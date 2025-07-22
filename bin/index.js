@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 const shell = require("shelljs");
-const repositories = require("../data/repositories");
-const repositoriesNotInProduction = require("../data/repositories-not-in-production");
-const repositoriesInProduction = require("../data/repositories-in-production");
 const preferences = require("../data/preferences");
 const os = require('os');
 const updateSite = require("./update");
@@ -15,15 +12,15 @@ const backstop = require("./backstop");
 const commands = {
   "clone-all": function(argv) {
     const path = argv[3] || '.';
-    cloneSites(path, repositories)
+    cloneSites(path, "all")
   },
   "clone-sites-in-production": function(argv) {
     const path = argv[3] || preferences.websitesInProductionPath;
-    cloneSites(path, repositoriesInProduction)
+    cloneSites(path, "in-production")
   },
   "clone-sites-not-in-production": function(argv) {
     const path = argv[3] || preferences.websitesNotInProductionPath;
-    cloneSites(path, repositoriesNotInProduction)
+    cloneSites(path, "not-in-production")
   },
   "update-all": function(argv) {
     const path = argv[3] || '.';
@@ -127,6 +124,11 @@ const commands = {
     });
   },
   "backstop": function(argv) {
+    const path = argv[3] || ".";
+    const pages = argv[4] || "";
+    backstop(path, pages);
+  },
+  "backstop-main": function(argv) {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
     updateSite(path);
