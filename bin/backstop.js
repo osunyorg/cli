@@ -64,7 +64,7 @@ module.exports = async function (path, paths = "") {
 
     shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
 
-    const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT}`, { async: true });
+    const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true });
     hugoServer.stdout.on('data', function(data) {
         if (data.indexOf(`Web Server is available at //localhost:${HUGO_SERVER_PORT}/`) > -1) {
             referenceAndTest(paths, config);
