@@ -32,9 +32,9 @@ function addScenarios(paths, configuration) {
         }
         const scenario = configuration.scenarios[0];
         const copy = {...scenario};
-        copy.label += path;
         copy.url += path;
         copy.referenceUrl += path;
+        copy.label = copy.referenceUrl;
         configuration.scenarios.push(copy);
     });
     console.log(configuration);

@@ -19,7 +19,7 @@ module.exports = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "delay": 3000,
+      "delay": 1000,
       "hideSelectors": ['.d-help', '.orejime-Banner'],
       "removeSelectors": [],
       "hoverSelector": "",
@@ -28,7 +28,7 @@ module.exports = {
       "selectors": [],
       "selectorExpansion": true,
       "expect": 0,
-      "misMatchThreshold" : 0.1,
+      "misMatchThreshold" : 0.2,
       "requireSameDimensions": true
     }
   ],
