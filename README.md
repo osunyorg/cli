@@ -70,5 +70,10 @@ Le script nécessite l'installation de `yq` : `brew install yq` (https://mikefar
 
 1. Naviguer via le terminal dans le dossier du site à tester.
 2. Ajouter `backstop_data` dans le fichier `.gitignore`.
-3. Lancer la commande `osuny backstop`
+3. Lancer la commande `osuny backstop [path] [urls]`
+    - `path` l'emplacement local du site à tester
+    - `urls` les urls relatives à tester démarrant et terminant par `/`, séparée par `,`
 4. Utiliser l'outil de comparaison pour chercher des modifications indésirables.
+
+Les urls testées proviennent du fichier `/assets/sample.json`. Vous pouvez le modifier pour déterminer l'échantillon d'url à tester.
+
