@@ -2,23 +2,13 @@ const updateSite = require("./update");
 const backstop = require("./backstop");
 const shell = require("shelljs");
 let websites = [];
-
-async function backstopSite (path) {
-    backstop(path);
-
-    websites.shift();
-
-    if (websites.length > 0) {
-        console.log("backstop : ", websites[0]);
-        backstop(websites[0]);
-    }
-}
+const branchName = "adjustment/items-harmonization";
 
 function backstopNextSite () {
     shell.cd('..');
 
     if (websites.length > 0) {
-        backstop(websites[0], "/", backstopNextSite);
+        backstop(websites[0], "/", branchName, backstopNextSite);
         websites.shift();
     } else {
         console.log('ended')

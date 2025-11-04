@@ -54,12 +54,24 @@ function getSample () {
     }
 }
 
-module.exports = async function (path, paths = "", callback) {
+async function changeBranch(branch) {
+    shell.exec('pwd');
+    shell.exec('git pull \;');
+    shell.cd('themes/osuny');
+    shell.exec(`git checkout ${branch} && git pull \;`);
+    shell.cd('../..');
+}
+
+module.exports = async function (path, paths = "", branch = null, callback = null) {
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
 
     shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
+
+    if (branch) {
+        await changeBranch(branch);
+    }
 
     config.scenarios.forEach(scenario => {
         scenario.url = scenario.url.replace('PORT', HUGO_SERVER_PORT);
