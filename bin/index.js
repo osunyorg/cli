@@ -7,6 +7,7 @@ const updateSite = require("./update");
 const migrateSite = require("./update");
 const cloneSites = require("./clone");
 const backstop = require("./backstop");
+const backstopFactory = require("./backstopFactory");
 
 // commands
 const commands = {
@@ -134,6 +135,9 @@ const commands = {
     updateSite(path);
     backstop(path, pages);
   },
+  "backstop-factory": function() {
+    backstopFactory();
+  }
 }
 
 const command = process.argv[2];

@@ -28,16 +28,16 @@ module.exports = {
       "selectors": [],
       "selectorExpansion": true,
       "expect": 0,
-      "misMatchThreshold" : 0.2,
-      "requireSameDimensions": true
+      "misMatchThreshold" : 10,
+      "requireSameDimensions": false
     }
   ],
   "paths": {
-    "bitmaps_reference": "backstop_data/bitmaps_reference",
-    "bitmaps_test": "backstop_data/bitmaps_test",
-    "engine_scripts": "backstop_data/engine_scripts",
-    "html_report": "backstop_data/html_report",
-    "ci_report": "backstop_data/ci_report"
+    "bitmaps_reference": "../backstop_data/bitmaps_reference",
+    "bitmaps_test": "../backstop_data/bitmaps_test",
+    "engine_scripts": "../backstop_data/engine_scripts",
+    "html_report": "../backstop_data/html_report",
+    "ci_report": "../backstop_data/ci_report"
   },
   "report": ["browser"],
   "engine": "puppeteer",

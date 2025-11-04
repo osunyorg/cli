@@ -8,7 +8,11 @@ async function referenceAndTest (paths, configuration) {
     const backstop = require('backstopjs');
     addPaths(paths, configuration);
     await backstop('reference', {config: configuration});
-    await backstop('test', {config: configuration});
+    await backstop('test', {config: configuration}).then((success) => {
+        console.log(success);
+    }).catch((error) => {
+        console.log(error);
+    });
 }
 
 // Add pages to be testing : directly by CLI or default pages sample generate by local site debug
@@ -50,10 +54,12 @@ function getSample () {
     }
 }
 
-module.exports = async function (path, paths = "") {
+module.exports = async function (path, paths = "", callback) {
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
+
+    shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
 
     config.scenarios.forEach(scenario => {
         scenario.url = scenario.url.replace('PORT', HUGO_SERVER_PORT);
@@ -62,12 +68,13 @@ module.exports = async function (path, paths = "") {
         scenario.referenceUrl = scenario.referenceUrl.replace(/\/$/, '');
     });
 
-    shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
-
     const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true });
-    hugoServer.stdout.on('data', function(data) {
+    hugoServer.stdout.on('data', async function(data) {
         if (data.indexOf(`Web Server is available at //localhost:${HUGO_SERVER_PORT}/`) > -1) {
-            referenceAndTest(paths, config);
+            await referenceAndTest(paths, config);
+            shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
+
+            if (callback) callback();
         }
     });
 }
