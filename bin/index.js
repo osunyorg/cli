@@ -136,7 +136,8 @@ const commands = {
     backstop(path, pages);
   },
   "backstop-factory": function() {
-    backstopFactory();
+    const branch = argv[3] || null; // branch name
+    backstopFactory(branch);
   }
 }
 
