@@ -55,6 +55,7 @@ function getSample () {
 }
 
 async function changeBranch(branch) {
+    shell.exec('yarn \;')
     shell.exec('pwd');
     shell.exec('git pull \;');
     shell.cd('themes/osuny');
