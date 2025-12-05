@@ -41,7 +41,6 @@ function addScenarios(paths, configuration) {
         copy.label = copy.referenceUrl;
         configuration.scenarios.push(copy);
     });
-    console.log(configuration);
 }
 
 // Get default pages sample
@@ -80,6 +79,10 @@ module.exports = async function (path, paths = "", branch = null, callback = nul
         scenario.referenceUrl = productionUrl;
         scenario.referenceUrl = scenario.referenceUrl.replace(/\/$/, '');
     });
+
+    if (path && path !== ".") {
+        config.paths.bitmaps_reference += "/" + path;
+    }
 
     const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true });
     hugoServer.stdout.on('data', async function(data) {

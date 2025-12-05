@@ -77,3 +77,12 @@ Le script nécessite l'installation de `yq` : `brew install yq` (https://mikefar
 
 Les urls testées proviennent du fichier `/assets/sample.json`. Vous pouvez le modifier pour déterminer l'échantillon d'url à tester.
 
+### Backstop Factory
+
+Vous pouvez lancer une série de tests sur différents sites. Il faut que les sites soient dans le même dossier. 
+
+1. Naviguer via le terminal dans le dossier contenant les sites à tester.
+2. Lancer la commande `osuny backstop-factory [branchname]`
+    > L'argument `branchname` vous permet de préciser la branche du thème à tester. Attention cela va placer le thème osuny sur cette branche en local, si vous travaillez sur le site, n'oubliez pas de remettre le thème sur la branch `main` au risque de déployer le site avec une version de thème en `beta`.
+
+
