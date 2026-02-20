@@ -1,18 +1,23 @@
 // need yq "brew install yq"
 const shell = require("shelljs");
 const config = require("./backstop/backstop-config.js");
+const coloredLog = require("./utils/coloredLog.js");
 const HUGO_SERVER_PORT = "7777";
 
 // Run Backstop scripts
 async function referenceAndTest (paths, configuration) {
     const backstop = require('backstopjs');
-    addPaths(paths, configuration);
+    if (paths !== false) {
+        addPaths(paths, configuration);
+    }
     await backstop('reference', {config: configuration});
     await backstop('test', {config: configuration}).then((success) => {
         console.log(success);
     }).catch((error) => {
         console.log(error);
     });
+
+    return true;
 }
 
 // Add pages to be testing : directly by CLI or default pages sample generate by local site debug
@@ -54,20 +59,20 @@ function getSample () {
 }
 
 async function changeBranch(branch) {
-    shell.exec('yarn \;')
-    shell.exec('pwd');
-    shell.exec('git pull \;');
+    shell.exec('yarn \;', {silent: true})
+    shell.exec('pwd', {silent: true});
+    shell.exec('git pull \;', {silent: true});
     shell.cd('themes/osuny');
-    shell.exec(`git checkout ${branch} && git pull \;`);
+    shell.exec(`git checkout ${branch} && git pull \;`, {silent: true});
     shell.cd('../..');
 }
 
-module.exports = async function (path, paths = "", branch = null, callback = null) {
+module.exports = async function (path, paths = "", branch = "main", callback = null) {
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
 
-    shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
+    shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`, {silent: true});
 
     if (branch) {
         await changeBranch(branch);
@@ -84,13 +89,22 @@ module.exports = async function (path, paths = "", branch = null, callback = nul
         config.paths.bitmaps_reference += "/" + path;
     }
 
-    const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true });
+    const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true, silent: true });
     hugoServer.stdout.on('data', async function(data) {
         if (data.indexOf(`Web Server is available at //localhost:${HUGO_SERVER_PORT}/`) > -1) {
             await referenceAndTest(paths, config);
-            shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`);
-
+            shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`, {silent: true});
+            coloredLog.success(`SUCCESS : ${path}`)
             if (callback) callback();
         }
     });
+    hugoServer.stderr.on('data', function(data) {
+        if (data.indexOf(`ERROR error building site`) > -1) {
+            coloredLog.error(`Failed building site : ${path}`);
+            if (callback) callback();
+        } else if (data.indexOf(`ERROR command error`) > -1) {
+            coloredLog.error(`Failed command error : ${path}`);
+            if (callback) callback();
+        }
+    })
 }

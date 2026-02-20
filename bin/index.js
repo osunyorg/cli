@@ -8,6 +8,8 @@ const migrateSite = require("./update");
 const cloneSites = require("./clone");
 const backstop = require("./backstop");
 const backstopFactory = require("./backstopFactory");
+const test = require("./test");
+const testFactory = require("./testFactory");
 
 // commands
 const commands = {
@@ -44,12 +46,15 @@ const commands = {
     }
 
     const repo = argv[3],
+          run = argv[4] || false,
           folderName = argv[3].replace(/\/$/, "").split('/').at(-1)
 
     shell.set('-e');
     shell.cd(preferences.websitesPath);
     shell.exec(`git clone ${repo} --recurse-submodules`);
-    this.run(folderName);
+    if (run) {
+      this.run(folderName);
+    }
   },
   "run": function(site) {
     if (typeof site == 'object') {
@@ -78,7 +83,9 @@ const commands = {
     this.update(['', '', '.']);
   },
   "up": function(argv) {
-    this.update(['-p']);
+    const path = argv[3] || ".";
+    shell.set('-e'); // exit upon first error
+    updateSite(path, true);
   },
   "serve": function(argv) {
     const networkInterfaces = os.networkInterfaces();
@@ -127,6 +134,7 @@ const commands = {
   "backstop": function(argv) {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
+    updateSite(path);
     backstop(path, pages);
   },
   "backstop-main": function(argv) {
@@ -138,6 +146,13 @@ const commands = {
   "backstop-factory": function(argv) {
     const branch = argv[3] || null; // branch name
     backstopFactory(branch);
+  },
+  "test": function(argv) {
+    const path = argv[3] || ".";
+    test(path)
+  },
+  "test-factory": function() {
+    testFactory();
   }
 }
 

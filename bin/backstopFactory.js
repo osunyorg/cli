@@ -1,6 +1,7 @@
 const updateSite = require("./update");
 const backstop = require("./backstop");
 const shell = require("shelljs");
+const coloredLog = require("./utils/coloredLog");
 let websites = [];
 let branch = null;
 
@@ -8,10 +9,10 @@ function backstopNextSite () {
     shell.cd('..');
 
     if (websites.length > 0) {
-        backstop(websites[0], "/", branch, backstopNextSite);
+        let result = backstop(websites[0], false, branch, backstopNextSite);
         websites.shift();
     } else {
-        console.log('ended')
+        console.log('ended');
     }
 }
 
