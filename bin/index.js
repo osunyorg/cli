@@ -141,7 +141,7 @@ const commands = {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
     updateSite(path);
-    backstop(path, pages);
+    backstop({path: path, paths: pages});
   },
   "backstop-factory": function(argv) {
     const branch = argv[3] || null; // branch name
@@ -149,7 +149,7 @@ const commands = {
   },
   "test": function(argv) {
     const path = argv[3] || ".";
-    test(path)
+    test(path);
   },
   "test-factory": function() {
     testFactory();

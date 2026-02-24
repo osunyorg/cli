@@ -9,7 +9,12 @@ function backstopNextSite () {
     shell.cd('..');
 
     if (websites.length > 0) {
-        let result = backstop(websites[0], false, branch, backstopNextSite);
+        backstop({
+            path: websites[0],
+            branch: branch, 
+            callback: backstopNextSite,
+            configName: "factory"
+        });
         websites.shift();
     } else {
         console.log('ended');

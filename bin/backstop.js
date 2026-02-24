@@ -1,8 +1,11 @@
 // need yq "brew install yq"
 const shell = require("shelljs");
-const config = require("./backstop/backstop-config.js");
 const coloredLog = require("./utils/coloredLog.js");
 const HUGO_SERVER_PORT = "7777";
+const configs = {
+    default: require("./backstop/backstop-config.js"),
+    factory: require("./backstop/backstop-factory-config.js")
+};
 
 // Run Backstop scripts
 async function referenceAndTest (paths, configuration) {
@@ -67,7 +70,16 @@ async function changeBranch(branch) {
     shell.cd('../..');
 }
 
-module.exports = async function (path, paths = "", branch = "main", callback = null) {
+async function backstopAction ({
+        path = ".",
+        paths = "",
+        branch = "main",
+        callback = null,
+        configName = "default"
+    }) {
+
+    const config = configs[configName];
+
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
@@ -108,3 +120,5 @@ module.exports = async function (path, paths = "", branch = "main", callback = n
         }
     })
 }
+
+module.exports = backstopAction;
