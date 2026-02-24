@@ -83,6 +83,8 @@ async function backstopAction ({
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
     productionUrl = productionUrl.replace('\n', '');
+    productionUrl = productionUrl.replace('"', '');
+    productionUrl = productionUrl.replace('"', '');
 
     shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`, {silent: true});
 
