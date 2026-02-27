@@ -14,7 +14,7 @@ module.exports = function (path, push = false, showHint = true) {
   });
 
   shell.cd('..', {silent: true});
-  shell.exec('yarn \;', {silent: true})
+  shell.exec('yarn upgrade \;', {silent: true})
 
   if (push) {
     shell.exec('git commit -am "theme" && git push \;')

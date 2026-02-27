@@ -6,7 +6,7 @@ module.exports = function (path = ".", callback) {
     let hasError = false;
     updateSite(path, false, false)
 
-    const hugoServer = shell.exec(`hugo `, { async: true, silent: true });
+    const hugoServer = shell.exec(`hugo`, { async: true, silent: true });
     hugoServer.stdout.on('finish', async function() {
         if (hasError) {
             coloredLog.error(`Error : ${path}`)

@@ -23,7 +23,7 @@ module.exports = {
       "hideSelectors": ['.d-help', '.orejime-Banner'],
       "removeSelectors": ['img'],
       "hoverSelector": "",
-      "clickSelector": "",
+      "clickSelector": [".menu .nav-level-1 > li.has-children > a", ".header-button"],
       "postInteractionWait": 0,
       "selectors": [],
       "selectorExpansion": true,

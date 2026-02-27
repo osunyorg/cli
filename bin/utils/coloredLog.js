@@ -34,13 +34,13 @@ const colorCodes = {
 module.exports = {
     success: function (message) {
         console.log(colorCodes.BgGreen);
-        console.log(colorCodes.FgWhite);
+        console.log(colorCodes.FgBlack);
         console.log(message);
         console.log(colorCodes.Reset);
     },
     error: function (message) {
         console.log(colorCodes.BgRed);
-        console.log(colorCodes.FgWhite);
+        console.log(colorCodes.FgBlack);
         console.log(message);
         console.log(colorCodes.Reset);
     }

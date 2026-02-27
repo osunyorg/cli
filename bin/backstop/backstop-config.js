@@ -1,9 +1,10 @@
-module.exports = {
+const preferences = require('../../data/preferences.js');
+const defaultBackstopConfig = {
   "id": "backstop_default",
   "viewports": [
     {
       "label": "phone",
-      "width": 320,
+      "width": 340,
       "height": 480
     },
     {
@@ -12,30 +13,28 @@ module.exports = {
       "height": 768
     }
   ],
+  "onReadyScript": "open-menu.js",
   "scenarios": [
     {
-      "label": "Osuny test : ",
+      "label": "Osuny",
       "url": "http://localhost:PORT",
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "delay": 1000,
+      "delay": 2000,
       "hideSelectors": ['.d-help', '.orejime-Banner'],
       "removeSelectors": [],
       "hoverSelector": "",
       "clickSelector": "",
-      "postInteractionWait": 0,
-      "selectors": [],
-      "selectorExpansion": true,
-      "expect": 0,
+      "postInteractionWait": 1000,
       "misMatchThreshold" : 0.2,
-      "requireSameDimensions": true
+      "requireSameDimensions": true,
     }
   ],
   "paths": {
     "bitmaps_reference": "backstop_data/bitmaps_reference",
     "bitmaps_test": "backstop_data/bitmaps_test",
-    "engine_scripts": "backstop_data/engine_scripts",
+    "engine_scripts": "../../tools/bin/backstop/engine_scripts",
     "html_report": "backstop_data/html_report",
     "ci_report": "backstop_data/ci_report"
   },
@@ -46,6 +45,8 @@ module.exports = {
   },
   "asyncCaptureLimit": 5,
   "asyncCompareLimit": 50,
-  "debug": false,
+  "debug": true,
   "debugWindow": false
-}
+};
+
+module.exports = { ...defaultBackstopConfig, ...preferences.backstopConfig }

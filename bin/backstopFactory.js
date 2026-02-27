@@ -4,6 +4,7 @@ const shell = require("shelljs");
 const coloredLog = require("./utils/coloredLog");
 let websites = [];
 let branch = null;
+let paths = '/';
 
 function backstopNextSite () {
     shell.cd('..');
@@ -11,7 +12,8 @@ function backstopNextSite () {
     if (websites.length > 0) {
         backstop({
             path: websites[0],
-            branch: branch, 
+            paths: false,
+            branch: branch,
             callback: backstopNextSite,
             configName: "factory"
         });
