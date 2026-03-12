@@ -28,6 +28,7 @@ function addPaths (paths, config) {
     if (paths) {
         paths = paths.split(',');
     }
+    console.log(paths.length)
     if (paths.length > 0) {
         addScenarios(paths, config);
     } else {
@@ -73,7 +74,7 @@ async function changeBranch(branch) {
 async function backstopAction ({
         path = ".",
         paths = "",
-        branch = "main",
+        branch = "",
         callback = null,
         configName = "default"
     }) {

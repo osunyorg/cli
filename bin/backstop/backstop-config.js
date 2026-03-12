@@ -13,7 +13,7 @@ const defaultBackstopConfig = {
       "height": 768
     }
   ],
-  "onReadyScript": "open-menu.js",
+  "misMatchThreshold" : 0.2,
   "scenarios": [
     {
       "label": "Osuny",
@@ -21,13 +21,12 @@ const defaultBackstopConfig = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "delay": 2000,
+      "delay": 1000,
       "hideSelectors": ['.d-help', '.orejime-Banner'],
       "removeSelectors": [],
       "hoverSelector": "",
       "clickSelector": "",
       "postInteractionWait": 1000,
-      "misMatchThreshold" : 0.2,
       "requireSameDimensions": true,
     }
   ],
@@ -45,7 +44,7 @@ const defaultBackstopConfig = {
   },
   "asyncCaptureLimit": 5,
   "asyncCompareLimit": 50,
-  "debug": true,
+  "debug": false,
   "debugWindow": false
 };
 
