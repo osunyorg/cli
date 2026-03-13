@@ -26,7 +26,7 @@ async function referenceAndTest (paths, configuration) {
 // Add pages to be testing : directly by CLI or default pages sample generate by local site debug
 function addPaths (paths, config) {
     if (paths) {
-        paths = paths.split(',');
+        paths = paths.split(' ');
     }
     console.log(paths.length)
     if (paths.length > 0) {
