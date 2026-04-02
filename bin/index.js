@@ -100,12 +100,12 @@ const commands = {
     }
 
     if (localIP) {
-      var cmd = `hugo serve --bind ${localIP} -b http://${localIP} -p 8000`
+      var cmd = `hugo serve --bind ${localIP} -b http://${localIP} -p 8000 --minify`
       shell.exec(cmd);
       console.log(cmd);
       console.log(`running local network on : http://${localIP}`)
     } else {
-      shell.exec('hugo serve');
+      shell.exec('hugo serve --minify');
     }
   },
   "migrate": function(argv) {
