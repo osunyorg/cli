@@ -78,7 +78,7 @@ async function backstopAction ({
         configName = "default"
     }) {
 
-    const config = configs[configName];
+    const config = JSON.parse(JSON.stringify(configs[configName]));
 
     shell.cd(path);
     let productionUrl = shell.exec("yq '.baseURL' config/production/config.yaml", { silent: true }).stdout;
