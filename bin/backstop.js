@@ -28,7 +28,6 @@ function addPaths (paths, config) {
     if (paths) {
         paths = paths.split(' ');
     }
-    console.log(paths.length)
     if (paths.length > 0) {
         addScenarios(paths, config);
     } else {
@@ -41,6 +40,7 @@ function addPaths (paths, config) {
 function addScenarios(paths, configuration) {
     paths.forEach(path => {
         if (path === "null" || !path || path === "") {
+            console.log(path)
             return;
         }
         const scenario = configuration.scenarios[0];
