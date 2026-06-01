@@ -19,10 +19,10 @@ function desktopActions () {
 };
 
 module.exports = async (page, scenario, viewport) => {
-  if (viewport.label === 'phone') {
-    page.evaluate(phoneActions);
-  } else if (viewport.label === 'desktop') {
-    page.evaluate(desktopActions);
-  };
+  // if (viewport.label === 'phone') {
+  //   page.evaluate(phoneActions);
+  // } else if (viewport.label === 'desktop') {
+  //   page.evaluate(desktopActions);
+  // };
   glColorMode(page, scenario, viewport);
 };
