@@ -143,7 +143,7 @@ const commands = {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
     updateSite(path);
-    backstop({path: path, paths: pages});
+    backstop({path: path, paths: pages, branch: "main"});
   },
   "backstop-factory": function(argv) {
     const branch = argv[3] || null; // branch name

@@ -13,16 +13,21 @@ const defaultBackstopConfig = {
       "height": 768
     }
   ],
-  "misMatchThreshold" : 0.5,
+  "misMatchThreshold" : 0.2,
   "scenarios": [
     {
       "label": "Osuny",
       "url": "http://localhost:PORT",
       "referenceUrl": "",
-      "hideSelectors": ['.d-help', '.orejime-Banner', 'iframe'],
-      "selectors": [
-        "document"
-      ],
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 1000,
+      "hideSelectors": ['.d-help', '.orejime-Banner'],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 1000,
+      "requireSameDimensions": true,
     }
   ],
   "paths": {
@@ -32,14 +37,15 @@ const defaultBackstopConfig = {
     "html_report": "backstop_data/html_report",
     "ci_report": "backstop_data/ci_report"
   },
-  "engine": "playwright",
+  "report": ["browser"],
+  "engine": "puppeteer",
   "engineOptions": {
-    "browser": "chromium",
+    "args": ["--no-sandbox"]
   },
-  "report": [
-    "browser"
-  ],
-  "debug": false
+  "asyncCaptureLimit": 5,
+  "asyncCompareLimit": 50,
+  "debug": false,
+  "debugWindow": false
 };
 
 module.exports = { ...defaultBackstopConfig, ...preferences.backstopConfig }
