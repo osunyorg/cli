@@ -32,13 +32,11 @@ const defaultBackstopConfig = {
     "html_report": "backstop_data/html_report",
     "ci_report": "backstop_data/ci_report"
   },
-  "engine": "playwright",
+  "report": ["browser"],
+  "engine": "puppeteer",
   "engineOptions": {
-    "browser": "chromium",
+    "args": ["--no-sandbox"]
   },
-  "report": [
-    "browser"
-  ],
   "debug": false
 };
 
