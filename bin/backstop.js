@@ -64,7 +64,6 @@ function getSample () {
 
 async function changeBranch(branch) {
     shell.exec('yarn \;', {silent: true})
-    shell.exec('pwd', {silent: true});
     shell.exec('git pull \;', {silent: true});
     shell.cd('themes/osuny');
     shell.exec(`git checkout ${branch} && git pull \;`, {silent: true});

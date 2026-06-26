@@ -13,7 +13,6 @@ const defaultBackstopConfig = {
       "height": 768
     }
   ],
-  "misMatchThreshold" : 0.5,
   "scenarios": [
     {
       "label": "Osuny",

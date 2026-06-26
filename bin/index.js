@@ -134,9 +134,11 @@ const commands = {
   "backstop": function(argv) {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
+    const branch = argv[5] || "";
     backstop({
       path: path,
-      paths: pages
+      paths: pages,
+      branch: branch
     });
   },
   "backstop-main": function(argv) {
