@@ -7,7 +7,8 @@ app.use(express.json());
 
 // ── Sites ─────────────────────────────────────────────────────────────────────
 app.get('/api/sites', async (req, res) => {
-  return getSites();
+  const sites = await getSites();
+  res.json(sites);
 });
 
 // ── Config ─────────────────────────────────────────────────────────────────────

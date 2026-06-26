@@ -14,6 +14,4 @@ async function getConfig() {
   }
 }
 
-export default {
-  CONFIG: await getConfig()
-}
+export default await getConfig();

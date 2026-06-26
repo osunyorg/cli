@@ -1,12 +1,11 @@
 <script setup>
 async function getSites() {
-  const res = await fetch('/api/sites', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  console.log(res)
+const res = await fetch('/api/sites', {
+  method: 'GET',
+  headers: { 'Content-Type': 'application/json' },
+});
 }
-
+const { sites, total, root } = await res.json();
 </script>
 
 <template>
