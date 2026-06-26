@@ -24,7 +24,7 @@
     <thead>
       <tr>
         <th>Site</th>
-        <th>Thèmes</th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>

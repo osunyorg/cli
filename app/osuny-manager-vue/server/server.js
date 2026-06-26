@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer } from 'http';
-import { getSites, runSite } from './api/sites';
+import { getSites, runSite, compareSite, updateSite } from './api/sites';
+import { exec } from 'child_process';
 
 export const app = express();
 app.use(express.json());
@@ -11,11 +12,26 @@ app.get('/api/sites', async (req, res) => {
   res.json(sites);
 });
 
-
-// Statuts submodules en batch — évite 800 requêtes HTTP individuelles
 app.post('/api/sites/run', async (req, res) => {
   const site = req.body,
         result = await runSite(site); 
+  res.json(result);
+});
+
+app.post('/api/sites/code', async (req, res) => {
+  const site = req.body;
+  exec('code .', { cwd: site.path });
+});
+
+app.post('/api/sites/compare', async (req, res) => {
+  const site = req.body,
+        result = await compareSite(site); 
+  res.json(result);
+});
+
+app.post('/api/sites/update', async (req, res) => {
+  const site = req.body,
+        result = await updateSite(site); 
   res.json(result);
 });
 

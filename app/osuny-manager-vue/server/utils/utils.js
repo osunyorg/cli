@@ -1,3 +1,5 @@
+import { spawn } from 'child_process';
+
 /**
  * Limite le nombre de promesses exécutées en parallèle.
  * @param {number} concurrency
@@ -29,3 +31,18 @@ export function limitPromises(concurrency) {
 
 /** Pause asynchrone. */
 export const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export async function procExec({ cmd, cwd }) {
+  return new Promise((resolve) => {
+    const proc = spawn('bash', ['-c', cmd], {
+      cwd,
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+    });
+
+    proc.stdout.on('data', (d) => { console.log(d.toString()) });
+    proc.stderr.on('data', (d) => { console.log(d.toString()) });
+    proc.on('close', (code) => {
+      resolve(code ?? 0);
+    });
+  });
+};

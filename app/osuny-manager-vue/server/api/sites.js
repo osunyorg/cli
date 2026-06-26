@@ -3,7 +3,8 @@ import path from "path";
 import CONFIG from './config';
 import { getUrl } from "./sites/GetUrl";
 import { run } from "./sites/run";
-// import { limitPromises } from "../utils/utils";
+import { compare } from "./sites/compare";
+import { update } from "./sites/update";
 
 async function getSite(name, sitePath) {
   const site = {
@@ -47,5 +48,16 @@ export async function getSites() {
 
 export async function runSite(site) {
   const result = await run(site);
+  return result;
+};
+
+export async function compareSite(site) {
+  const result = await compare(site);
+  return result;
+};
+
+
+export async function updateSite(site) {
+  const result = await update(site);
   return result;
 };
