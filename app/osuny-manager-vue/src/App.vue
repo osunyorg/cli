@@ -3,7 +3,14 @@
 </script>
 
 <template>
-  <List />
+  <div class="navbar">
+    <div class="container">
+      <div class="navbar-brand">Osuny Manager</div>
+    </div>
+  </div>
+  <div class="container">
+    <List />
+  </div>
 </template>
 
 <style>

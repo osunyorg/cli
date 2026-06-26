@@ -15,10 +15,11 @@
 </script>
 
 <template>
-  <button class="btn" @click="update">Update list</button>
   <p v-if="!sites">Loading...</p>
-
-  <input type="text" v-model="filter">
+  
+  <div class="py-2">
+    <input type="text" v-model="filter" placeholder="Rechercher">
+  </div>
 
   <table class="table">
     <thead>
