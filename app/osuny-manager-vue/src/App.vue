@@ -6,4 +6,6 @@
   <List />
 </template>
 
-<style scoped></style>
+<style>
+  @import 'bootstrap/dist/css/bootstrap.css';
+</style>

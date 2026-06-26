@@ -1,6 +1,6 @@
 import express from 'express';
 import { createServer } from 'http';
-import { getSites } from './api/sites';
+import { getSites, runSite } from './api/sites';
 
 export const app = express();
 app.use(express.json());
@@ -11,9 +11,12 @@ app.get('/api/sites', async (req, res) => {
   res.json(sites);
 });
 
-// ── Config ─────────────────────────────────────────────────────────────────────
-app.get('/api/config', async (req, res) => {
-  res.json({result: "Youhouuu"});
+
+// Statuts submodules en batch — évite 800 requêtes HTTP individuelles
+app.post('/api/sites/run', async (req, res) => {
+  const site = req.body,
+        result = await runSite(site); 
+  res.json(result);
 });
 
 const PORT = process.env.PORT || 3000;
@@ -21,8 +24,6 @@ const server = createServer(app);
 
 server.listen(PORT, () => {
   console.log(`\n🌿 Osuny Manager → http://localhost:${PORT}\n`);
-  // do things
 });
 
-console.log('ok')
 export default app;
