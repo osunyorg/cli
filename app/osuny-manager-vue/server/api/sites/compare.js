@@ -1,14 +1,10 @@
-import { exec, spawn } from 'child_process';
-import { promisify } from 'util';
-import { procExec } from '../../utils/utils';
+import { broadcast, createJob, isJobCancelled, markJobDone, runWithStream } from '../jobs';
 
 export async function compare(site) {
-  console.log('comparing : ', site.name);
-
-  const result = await procExec({
-    cmd: 'osuny backstop',
-    cwd: site.path
-  });
-
-  return result;
+  const jobId = createJob('compare');
+  broadcast('job:start', { jobId });  
+  await runWithStream(jobId, 'osuny backstop', site.path, site.name)
+  broadcast('job:end', { jobId });
+  markJobDone(jobId);
+  return { complete: true };
 };

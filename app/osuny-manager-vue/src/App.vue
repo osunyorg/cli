@@ -5,13 +5,15 @@
 
 <template>
   <div class="navbar">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-brand">Osuny Manager</div>
     </div>
   </div>
-  <Stream />
-  <div class="container">
+  <div class="container-fluid">
     <List />
+  </div>
+  <div class="container-fluid">
+    <Stream />
   </div>
 </template>
 

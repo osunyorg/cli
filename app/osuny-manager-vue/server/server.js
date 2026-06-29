@@ -1,9 +1,12 @@
 import express from 'express';
 import { createServer } from 'http';
 import { sitesManager } from './api/sites';
+import { attachWebSocket, cancelJob } from './api/jobs';
+import CONFIG from '../config';
 
 export const app = express();
 app.use(express.json());
+
 
 // ── Sites ─────────────────────────────────────────────────────────────────────
 app.get('/api/sites', async (req, res) => {
@@ -35,8 +38,16 @@ app.post('/api/sites/update', async (req, res) => {
   res.json(result);
 });
 
-const PORT = process.env.PORT || 3000;
+app.post('/api/jobs/:jobId/cancel', (req, res) => {
+  const ok = cancelJob(req.params.jobId);
+  console.log(ok);
+  res.json({ ok });
+});
+
+const PORT = CONFIG.SERVER_PORT;
 const server = createServer(app);
+
+attachWebSocket(server);
 
 server.listen(PORT, () => {
   console.log(`\n🌿 Osuny Manager → http://localhost:${PORT}\n`);

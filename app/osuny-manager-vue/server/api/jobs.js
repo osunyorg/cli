@@ -31,9 +31,12 @@ export function createJob(prefix) {
 
 export function cancelJob(jobId) {
   const job = jobs.get(jobId);
-  if (!job) return false;
+  if (!job) {
+    return false;
+  }
   job.cancelled = true;
   job.proc?.kill('SIGTERM');
+  broadcast('job:out', { jobId, text: `\n▶ Process killed\n` });
   return true;
 }
 
