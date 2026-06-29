@@ -1,37 +1,37 @@
 import express from 'express';
 import { createServer } from 'http';
-import { getSites, runSite, compareSite, updateSite } from './api/sites';
-import { exec } from 'child_process';
+import { sitesManager } from './api/sites';
 
 export const app = express();
 app.use(express.json());
 
 // ── Sites ─────────────────────────────────────────────────────────────────────
 app.get('/api/sites', async (req, res) => {
-  const sites = await getSites();
+  const sites = await sitesManager.getAll();
   res.json(sites);
 });
 
 app.post('/api/sites/run', async (req, res) => {
   const site = req.body,
-        result = await runSite(site); 
+        result = await sitesManager.run(site); 
   res.json(result);
 });
 
 app.post('/api/sites/code', async (req, res) => {
   const site = req.body;
-  exec('code .', { cwd: site.path });
+  sitesManager.code(site);
+  res.json({ complete: true });
 });
 
 app.post('/api/sites/compare', async (req, res) => {
   const site = req.body,
-        result = await compareSite(site); 
+        result = await sitesManager.compare(site); 
   res.json(result);
 });
 
 app.post('/api/sites/update', async (req, res) => {
   const site = req.body,
-        result = await updateSite(site); 
+        result = await sitesManager.update(site); 
   res.json(result);
 });
 

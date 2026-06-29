@@ -39,10 +39,13 @@ export async function procExec({ cmd, cwd }) {
       env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
     });
 
-    proc.stdout.on('data', (d) => { console.log(d.toString()) });
-    proc.stderr.on('data', (d) => { console.log(d.toString()) });
+    console.log(proc);
+    console.log(proc.stdin);
+    // proc.stdout.on('data', (d) => { console.log(d.toString()) });
+    // proc.stderr.on('data', (d) => { console.log(d.toString()) });
     proc.on('close', (code) => {
       resolve(code ?? 0);
     });
+
   });
 };

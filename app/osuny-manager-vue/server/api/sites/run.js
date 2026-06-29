@@ -1,19 +1,28 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { procExec } from '../../utils/utils';
+// import { runWithStream } from '../api/jobs';
+import { broadcast, createJob, isJobCancelled, markJobDone, runWithStream } from '../jobs';
 
 const LOCAL_URL_PATTERN = /^http:\/\/\s*["']?([^"'\n]+)["']?/m;
 
-const execAsync = promisify(exec);
-
 export async function run(site) {
-  console.log('running : ', site.name);
+  const jobId = createJob('run');
+  broadcast('job:start', { jobId });  
+  await runWithStream(jobId, 'yarn upgrade && yarn osuny dev', site.path, site.name)
 
-  const result = await procExec({
-    cmd: 'yarn upgrade && yarn osuny dev',
-    cwd: site.path
-  });
+  // broadcast('job:done', {
+  //   jobId,
+  //   code: isJobCancelled(jobId) ? 130 : 0,
+  //   final: true,
+  //   cancelled: isJobCancelled(jobId),
+  // });
+  // const result = await procExec({
+  //   cmd: 'yarn upgrade && yarn osuny dev',
+  //   cwd: site.path
+  // });
 
+  console.log(result);
   return result;
   // console.log(site);
   // try {

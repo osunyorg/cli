@@ -67,9 +67,9 @@ const commands = {
 
     shell.set('-e');
     shell.cd(preferences.websitesPath + '/' + site);
-    shell.exec(`code .`);
-    shell.exec(`yarn upgrade && yarn osuny dev`, { async: true });
-    shell.exec(`open -a "Google Chrome" http://localhost:1313`);
+    shell.exec(`code .`, { async: true, silent: true });
+    shell.exec(`yarn upgrade && yarn osuny dev`, { async: true, silent: true });
+    shell.exec(`open -a "Google Chrome" http://localhost:1313`, { silent: true });
   },
   "update": function(argv) {
     const path = argv[3] || ".",
