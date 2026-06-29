@@ -1,7 +1,3 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { procExec } from '../../utils/utils';
-// import { runWithStream } from '../api/jobs';
 import { broadcast, createJob, isJobCancelled, markJobDone, runWithStream } from '../jobs';
 
 const LOCAL_URL_PATTERN = /^http:\/\/\s*["']?([^"'\n]+)["']?/m;

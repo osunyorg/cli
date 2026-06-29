@@ -1,5 +1,6 @@
 <script setup>
-  import List from './sites/List.vue';
+  import List from './components/sites/List.vue';
+  import Stream from './components/Stream.vue';
 </script>
 
 <template>
@@ -8,6 +9,7 @@
       <div class="navbar-brand">Osuny Manager</div>
     </div>
   </div>
+  <Stream />
   <div class="container">
     <List />
   </div>
