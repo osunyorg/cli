@@ -46,7 +46,7 @@
     window.addEventListener('ws:job:done',     (e) => onJobDone(e.detail));
 
     function onJobStart({ jobId, total }) {
-      cancelJob(currentJobId.value);
+      // cancelJob(currentJobId.value);
 
       currentJobId.value = jobId;
 
