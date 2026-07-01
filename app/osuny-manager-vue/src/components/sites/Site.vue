@@ -55,22 +55,14 @@
     <td>
       {{ site.name }}
     </td>
-    <td>
+    <td class="actions">
       <a :href="site.url" target="_blank" v-if="site.url">open ↗</a>
-    </td>
-    <td>
       <button type="button" class="btn btn-light btn-sm" @click="code">code</button>
-    </td>
-    <td>
       <button type="button" class="btn btn-light btn-sm" @click="run">run</button>
-    </td>
-    <td>
       <button type="button" class="btn btn-light btn-sm" @click="update">
         <span v-if="isUpdating">updating...</span>
         <span v-else>update</span>
       </button>
-    </td>
-    <td>
       <button type="button" class="btn btn-light btn-sm" @click="compare">
         <span v-if="isComparing">comparing...</span>
         <span v-else>compare</span>
@@ -79,4 +71,12 @@
   </tr>
 </template>
 
-<style scoped></style>
+<style scoped lang="sass">
+  table
+    td:first-child
+      margin-right: auto
+  .actions
+    display: flex
+    justify-content: end
+    gap: 20px
+</style>
