@@ -1,0 +1,63 @@
+@font-face {
+    font-display: swap;
+    font-family: "Adelphe";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/adelphe/Adelphe-GerminalRegular.woff2") format("woff2"), url("/fonts/adelphe/Adelphe-GerminalRegular.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Adelphe";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/adelphe/Adelphe-GerminalSemiBold.woff2") format("woff2"), url("/fonts/adelphe/Adelphe-GerminalSemiBold.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Adelphe";
+    font-style: italic;
+    font-weight: 400;
+    src: url("/fonts/adelphe/Adelphe-GerminalItalic.woff2") format("woff2"), url("/fonts/adelphe/Adelphe-GerminalItalic.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Adelphe";
+    font-style: italic;
+    font-weight: 700;
+    src: url("/fonts/adelphe/Adelphe-GerminalSemiBoldItalic.woff2") format("woff2"), url("/fonts/adelphe/Adelphe-GerminalSemiBoldItalic.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Inclusive Sans";
+    font-style: normal;
+    font-weight: 300;
+    src: url("/fonts/inclusive-sans/InclusiveSans-Light.woff2") format("woff2"), url("/fonts/inclusive-sans/InclusiveSans-Light.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Inclusive Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/inclusive-sans/InclusiveSans-Regular.woff2") format("woff2"), url("/fonts/inclusive-sans/InclusiveSans-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Inclusive Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/inclusive-sans/InclusiveSans-Bold.woff2") format("woff2"), url("/fonts/inclusive-sans/InclusiveSans-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Inclusive Sans";
+    font-style: italic;
+    font-weight: 700;
+    src: url("/fonts/inclusive-sans/InclusiveSans-BoldItalic.woff2") format("woff2"), url("/fonts/inclusive-sans/InclusiveSans-BoldItalic.woff") format("woff");
+}
