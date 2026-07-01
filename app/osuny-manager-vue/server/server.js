@@ -40,7 +40,6 @@ app.post('/api/sites/update', async (req, res) => {
 
 app.post('/api/jobs/:jobId/cancel', (req, res) => {
   const ok = cancelJob(req.params.jobId);
-  console.log(ok);
   res.json({ ok });
 });
 

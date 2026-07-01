@@ -35,9 +35,15 @@ export function cancelJob(jobId) {
     return false;
   }
   job.cancelled = true;
-  job.proc?.kill('SIGTERM');
+  if (job.proc) {
+    try {
+      process.kill(-job.proc.pid, 'SIGKILL');
+    } catch {
+      job.proc.kill('SIGKILL');
+    }
+  }
   broadcast('job:out', { jobId, text: `\n▶ Process killed\n` });
-  return true;
+  return jobId;
 }
 
 export function isJobCancelled(jobId) {
@@ -71,6 +77,7 @@ export function runWithStream(jobId, cmd, cwd, label = null) {
     const proc = spawn('bash', ['-c', cmd], {
       cwd,
       env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+      detached: true,
     });
 
     const job = jobs.get(jobId);
