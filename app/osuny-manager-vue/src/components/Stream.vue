@@ -2,12 +2,12 @@
   import { ref, onMounted } from 'vue'
   import { Offcanvas } from 'bootstrap';
   import CONFIG from "../../config";
+  import Job from './stream/Job.vue';
 
-  const terminal = ref('');
   const offcanvas = ref();
-  const currentJobId = ref();
+  const jobs = ref({});
+
   let bsOffcanvas = null;
-  
   let socket = null;
   let reconnectTimer = null;
   
@@ -30,12 +30,6 @@
     };
   }
 
-  function cancelJob(jobId) {
-    if (jobId) {
-      fetch(`/api/jobs/${jobId}/cancel`, { method: 'POST' });
-    }
-  }
-
   onMounted(() => {
     bsOffcanvas = new Offcanvas(offcanvas.value);
 
@@ -46,9 +40,10 @@
     window.addEventListener('ws:job:done',     (e) => onJobDone(e.detail));
 
     function onJobStart({ jobId, total }) {
-      // cancelJob(currentJobId.value);
-
-      currentJobId.value = jobId;
+      jobs.value[jobId] = {
+        jobId,
+        content: ''
+      };
 
       bsOffcanvas.show();
     }
@@ -58,16 +53,17 @@
     }
 
     function onJobOut({ jobId, text }) {
-      terminal.value += text;
+      if (jobs.value[jobId]) 
+        jobs.value[jobId].content += text;
     }
 
     function onJobErr({ jobId, text }) {
-      terminal.value += text;
+      if (jobs.value[jobId])
+        jobs.value[jobId].content += text;
     }
 
     function onJobDone({ jobId, cancelled, total }) {
       bsOffcanvas.hide();
-      console.log('done !')
     }
 
     connect();
@@ -80,33 +76,15 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <div class="terminal-container">
-        <pre>{{ terminal }}</pre>
-      </div>
-      <div v-if="currentJobId">
-        <button class="btn btn-small btn-danger"  @click="cancelJob(currentJobId)">Kill</button>
-        <div class="small mt-2">{{ currentJobId }}</div>
+      <div class="jobs">
+        <Job v-for="job in jobs" :content="job.content" :jobId="job.jobId" />
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-.terminal-container {
-  height: calc(100vh - 200px);
-  display: flex;
-  align-items: end;
-  overflow-y: auto;
-}
-
-pre {
-  max-width: 100%;
-  display: block;
-  background: black;
-  white-space: break-spaces;
-  margin-top: 1rem;
-  padding: 1rem;
-  flex: 1;
-  min-height: 100%;
-}
+<style scoped lang="sass">
+.jobs
+  display: flex
+  flex-direction: column-reverse
 </style>
