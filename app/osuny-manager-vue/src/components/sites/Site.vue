@@ -1,17 +1,19 @@
 <script setup>
-  import { ref, watch } from 'vue';
+  import { computed, ref } from 'vue';
 
   const props = defineProps({
     site: Object,
-    filter: String
+    filter: String,
+    theme: String
   });
 
-  const isVisible = ref(true);
   const isComparing = ref(false);
   const isUpdating = ref(false);
 
-  watch(() => props.filter, newFilter => {
-    isVisible.value = !newFilter || props.site.name.toLowerCase().includes(newFilter.toLowerCase());
+  const isVisible = computed(() => {
+    const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
+    const matchesTheme = !props.theme || props.site.themes.some(theme => theme.name === props.theme);
+    return matchesFilter && matchesTheme;
   });
 
   function run() {
@@ -39,6 +41,7 @@
     });
     isComparing.value = false;
   }
+
   async function update() {
     isUpdating.value = true;
     await fetch('/api/sites/update', {
@@ -54,6 +57,11 @@
   <tr v-if="isVisible">
     <td>
       {{ site.name }}
+    </td>
+    <td>
+      <span class="badge rounded-pill bg-light text-dark me-1" v-for="theme in site.themes">
+        {{ theme.name }}
+      </span>
     </td>
     <td class="actions">
       <a :href="site.url" target="_blank" v-if="site.url">open ↗</a>
@@ -79,4 +87,5 @@
     display: flex
     justify-content: end
     gap: 20px
+    white-space: nowrap
 </style>

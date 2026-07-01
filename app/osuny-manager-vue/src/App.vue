@@ -22,7 +22,7 @@
 </template>
 
 <style lang="sass">
-  @import 'bootstrap/scss/bootstrap.scss'
+  @import 'bootstrap/dist/css/bootstrap.css'
   @import './styles/fonts.css'
 
   body
