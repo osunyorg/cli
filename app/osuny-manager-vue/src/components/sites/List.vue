@@ -1,8 +1,9 @@
 <script setup>
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
 
   import Site from './Site.vue';
-import { uniq } from '@/utils/uniq.js';
+  import SortableTh from './SortableTh.vue';
+  import { uniq } from '@/utils/uniq.js';
 
   const sites = ref(null);
   const themes = ref([]);
@@ -10,6 +11,37 @@ import { uniq } from '@/utils/uniq.js';
   const filter = ref('');
   // Filter by theme
   const theme = ref('');
+  // Sort
+  const sortColumn = ref('name');
+  const sortDirection = ref('asc');
+
+  function sortBy({ column, direction }) {
+    sortColumn.value = column;
+    sortDirection.value = direction;
+  }
+
+  function getSortValue(site, column) {
+    switch (column) {
+      case 'themes':
+        return site.themes.map(t => t.name).sort().join(', ').toLowerCase();
+      case 'osuny':
+        return site.versions?.osuny ?? '';
+      case 'hugo':
+        return site.versions?.hugo ?? '';
+      default:
+        return site.name?.toLowerCase() ?? '';
+    }
+  }
+
+  const sortedSites = computed(() => {
+    if (!sites.value) return [];
+    const direction = sortDirection.value === 'asc' ? 1 : -1;
+    return [...sites.value].sort((a, b) => {
+      const valueA = getSortValue(a, sortColumn.value);
+      const valueB = getSortValue(b, sortColumn.value);
+      return valueA.localeCompare(valueB, undefined, { numeric: true, sensitivity: 'base' }) * direction;
+    });
+  });
 
   async function update() {
     const res = await fetch('/api/sites');
@@ -54,17 +86,18 @@ import { uniq } from '@/utils/uniq.js';
       </div>
     </div>
   </div>
-
   <table class="table">
     <thead>
       <tr>
-        <th>site</th>
-        <th>themes</th>
+        <SortableTh label="site" column="name" :active-column="sortColumn" @sort="sortBy" />
+        <SortableTh label="themes" column="themes" :active-column="sortColumn" @sort="sortBy" />
+        <SortableTh label="osuny" column="osuny" :active-column="sortColumn" @sort="sortBy" />
+        <SortableTh label="hugo" column="hugo" :active-column="sortColumn" @sort="sortBy" />
         <th class="actions">actions</th>
       </tr>
     </thead>
     <tbody>
-      <Site v-for="site in sites" :site="site" :filter="filter" :theme="theme" />
+      <Site v-for="site in sortedSites" :site="site" :filter="filter" :theme="theme" />
     </tbody>
   </table>
 </template>

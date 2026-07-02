@@ -63,26 +63,31 @@
         {{ theme.name }}
       </span>
     </td>
-    <td class="actions">
-      <a :href="site.url" target="_blank" v-if="site.url">open ↗</a>
-      <button type="button" class="btn btn-light btn-sm" @click="code">code</button>
-      <button type="button" class="btn btn-light btn-sm" @click="run">run</button>
-      <button type="button" class="btn btn-light btn-sm" @click="update">
-        <span v-if="isUpdating">updating...</span>
-        <span v-else>update</span>
-      </button>
-      <button type="button" class="btn btn-light btn-sm" @click="compare">
-        <span v-if="isComparing">comparing...</span>
-        <span v-else>compare</span>
-      </button>
+    <td>
+      <span class="badge rounded-pill" v-if="site.versions?.osuny">{{ site.versions.osuny }}</span>
+    </td>
+    <td>
+      <span class="badge rounded-pill" v-if="site.versions?.hugo">{{ site.versions.hugo }}</span>
+    </td>
+    <td>
+      <div class="actions">
+        <a :href="site.url" target="_blank" v-if="site.url">open ↗</a>
+        <button type="button" class="btn btn-light btn-sm" @click="code">code</button>
+        <button type="button" class="btn btn-light btn-sm" @click="run">run</button>
+        <button type="button" class="btn btn-light btn-sm" @click="update">
+          <span v-if="isUpdating">updating...</span>
+          <span v-else>update</span>
+        </button>
+        <button type="button" class="btn btn-light btn-sm" @click="compare">
+          <span v-if="isComparing">comparing...</span>
+          <span v-else>compare</span>
+        </button>
+      </div>
     </td>
   </tr>
 </template>
 
 <style scoped lang="sass">
-  table
-    td:first-child
-      margin-right: auto
   .actions
     display: flex
     justify-content: end

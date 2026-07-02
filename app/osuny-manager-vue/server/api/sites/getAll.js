@@ -3,6 +3,7 @@ import path from "path";
 import CONFIG from '../config';
 import { getUrl } from "./site/getUrl";
 import { getThemes } from "./site/getThemes";
+import { getVersions } from "./site/getVersions";
 
 async function getSite(name, sitePath) {
   const themes = await getThemes(sitePath);
@@ -16,6 +17,7 @@ async function getSite(name, sitePath) {
     name: name,
     path: sitePath,
     url: await getUrl(sitePath),
+    versions: await getVersions(sitePath),
     themes: themes,
     visible: true
   };
