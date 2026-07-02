@@ -57,16 +57,18 @@ const commands = {
     }
   },
   "run": function(site) {
+    let path = argv[3] || ".";
+
     if (typeof site == 'object') {
       site = site[3]
     }
 
-    if (!site) {
-      return console.log('Need a site name (folder path)');
+    if (site) {
+      path = preferences.websitesPath + '/' + site;
     }
 
     shell.set('-e');
-    shell.cd(preferences.websitesPath + '/' + site);
+    shell.cd(path);
     shell.exec(`code .`, { async: true, silent: true });
     shell.exec(`yarn upgrade && yarn osuny dev`, { async: true, silent: true });
     shell.exec(`open -a "Google Chrome" http://localhost:1313`, { silent: true });
@@ -96,14 +98,13 @@ const commands = {
         if (config.address.includes("192.168")) {
           localIP = config.address;
         }
-      })
+      });
     }
 
     if (localIP) {
-      var cmd = `hugo serve --bind ${localIP} -b http://${localIP} -p 8000`
+      var cmd = `hugo serve --bind ${localIP} -b http://${localIP} -p 8000`;
       shell.exec(cmd);
-      console.log(cmd);
-      console.log(`running local network on : http://${localIP}`)
+      console.log(`running local network on : http://${localIP}`);
     } else {
       shell.exec('hugo serve');
     }
