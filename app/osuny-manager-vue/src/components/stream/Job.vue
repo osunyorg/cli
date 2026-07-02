@@ -11,6 +11,7 @@
     if (props.jobId) {
       fetch(`/api/jobs/${props.jobId}/cancel`, { method: 'POST' });
     }
+
     running.value = false;
   }
 </script>
@@ -19,7 +20,7 @@
   <div class="job mb-2 pb-2">
     <div class="small mb-2">{{ props.jobId }}</div>
     <div class="job-container">
-      <pre>{{ props.content }}</pre>
+      <pre v-if="running">{{ props.content }}</pre>
     </div>
     <button v-if="running" class="btn btn-small btn-danger" @click="cancel">Kill</button>
   </div>

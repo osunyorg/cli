@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted } from 'vue';
   import { Offcanvas } from 'bootstrap';
   import CONFIG from "../../config";
   import Job from './stream/Job.vue';
