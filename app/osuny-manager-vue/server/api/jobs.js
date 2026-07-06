@@ -42,7 +42,8 @@ export function cancelJob(jobId) {
       job.proc.kill('SIGKILL');
     }
   }
-  broadcast('job:out', { jobId, text: `\n▶ Process killed\n` });
+  broadcast('job:out', { id: jobId, text: `\n▶ Process killed\n` });
+  // broadcast('job:done', { id: jobId, cancelled: true });
   return jobId;
 }
 
@@ -53,6 +54,7 @@ export function isJobCancelled(jobId) {
 export function markJobDone(jobId) {
   const job = jobs.get(jobId);
   if (job) job.done = true;
+  broadcast('job:done', { id: jobId, cancelled: isJobCancelled });
 }
 
 /** Supprime les jobs terminés depuis plus d'une heure. */
@@ -72,7 +74,7 @@ export function cleanupOldJobs() {
 export function runWithStream(jobId, cmd, cwd, label = null) {
   return new Promise((resolve) => {
     if (isJobCancelled(jobId)) return resolve(130);
-    if (label) broadcast('job:out', { jobId, text: `\n▶ ${label}\n` });
+    if (label) broadcast('job:out', { id: jobId, text: `\n▶ ${label}\n` });
 
     const proc = spawn('bash', ['-c', cmd], {
       cwd,
@@ -83,8 +85,8 @@ export function runWithStream(jobId, cmd, cwd, label = null) {
     const job = jobs.get(jobId);
     if (job) job.proc = proc;
 
-    proc.stdout.on('data', (d) => broadcast('job:out', { jobId, text: d.toString() }));
-    proc.stderr.on('data', (d) => broadcast('job:err', { jobId, text: d.toString() }));
+    proc.stdout.on('data', (d) => broadcast('job:out', { id: jobId, text: d.toString() }));
+    proc.stderr.on('data', (d) => broadcast('job:err', { id: jobId, text: d.toString() }));
     proc.on('close', (code) => {
       if (job) job.proc = null;
       resolve(code ?? 0);

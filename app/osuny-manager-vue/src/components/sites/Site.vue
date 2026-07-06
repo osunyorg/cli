@@ -1,5 +1,6 @@
 <script setup>
   import { computed, ref } from 'vue';
+  import { checkGitStatus } from '@/utils/checkGitStatus.js';
 
   const props = defineProps({
     site: Object,
@@ -14,6 +15,22 @@
     const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
     const matchesTheme = !props.theme || props.site.themes.some(theme => theme.name === props.theme);
     return matchesFilter && matchesTheme;
+  });
+
+  const gitStatusTitle = computed(() => {
+    const gitStatus = props.site.gitStatus;
+    if (!gitStatus) return '';
+
+    const describe = (label, status) => {
+      if (!status.branch) return `${label}: unknown`;
+      if (status.upToDate) return `${label}: up to date (${status.branch})`;
+      return `${label}: ${status.branch}, ${status.behind ?? '?'} behind main`;
+    };
+
+    return [
+      describe('main', gitStatus.main),
+      ...gitStatus.submodules.map((submodule) => describe(submodule.name, submodule)),
+    ].join('\n');
   });
 
   function run() {
@@ -51,12 +68,17 @@
     });
     isUpdating.value = false;
   }
+
+  function checkStatus() {
+    checkGitStatus(props.site);
+  }
 </script>
 
 <template>
   <tr v-if="isVisible">
     <td>
-      {{ site.name }}
+      <a :href="site.url" target="_blank" v-if="site.url" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ site.name }} ↗</a>
+      <span v-else>{{ site.name }}</span>
     </td>
     <td>
       <span class="badge rounded-pill bg-light text-dark me-1" v-for="theme in site.themes">
@@ -70,8 +92,19 @@
       <span class="badge rounded-pill" v-if="site.versions?.hugo">{{ site.versions.hugo }}</span>
     </td>
     <td>
+      <span v-if="site.checkingGitStatus">checking...</span>
+      <span
+        v-else-if="site.gitStatus"
+        class="badge rounded-pill"
+        :class="site.gitStatus.upToDate ? 'bg-success' : 'bg-warning text-dark'"
+        :title="gitStatusTitle"
+      >
+        {{ site.gitStatus.upToDate ? 'up to date' : 'outdated' }}
+      </span>
+      <button v-else type="button" class="btn btn-light btn-sm" @click="checkStatus">check</button>
+    </td>
+    <td>
       <div class="actions">
-        <a :href="site.url" target="_blank" v-if="site.url">open ↗</a>
         <button type="button" class="btn btn-light btn-sm" @click="code">code</button>
         <button type="button" class="btn btn-light btn-sm" @click="run">run</button>
         <button type="button" class="btn btn-light btn-sm" @click="update">

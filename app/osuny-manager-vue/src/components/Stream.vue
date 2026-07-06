@@ -6,6 +6,7 @@
 
   const offcanvas = ref();
   const jobs = ref({});
+  const noJobs = ref(true);
 
   let bsOffcanvas = null;
   let socket = null;
@@ -39,31 +40,34 @@
     window.addEventListener('ws:job:err',      (e) => onJobErr(e.detail));
     window.addEventListener('ws:job:done',     (e) => onJobDone(e.detail));
 
-    function onJobStart({ jobId, total }) {
-      jobs.value[jobId] = {
-        jobId,
-        content: ''
+    function onJobStart({ id, total }) {
+      jobs.value[id] = {
+        id,
+        content: '',
+        done: false
       };
 
       bsOffcanvas.show();
+      noJobs.value = false;
     }
 
-    function onJobProgress({ jobId, done, total }) {
-      console.log('progress');
+    // function onJobProgress({ id, done, total }) {
+    //   console.log('progress');
+    // }
+
+    function onJobOut({ id, text }) {
+      if (jobs.value[id]) 
+        jobs.value[id].content += text;
     }
 
-    function onJobOut({ jobId, text }) {
-      if (jobs.value[jobId]) 
-        jobs.value[jobId].content += text;
+    function onJobErr({ id, text }) {
+      if (jobs.value[id])
+        jobs.value[id].content += text;
     }
 
-    function onJobErr({ jobId, text }) {
-      if (jobs.value[jobId])
-        jobs.value[jobId].content += text;
-    }
-
-    function onJobDone({ jobId, cancelled, total }) {
-      bsOffcanvas.hide();
+    function onJobDone({ id, cancelled, total }) {
+      if (jobs.value[id])
+        jobs.value[id].done = true;
     }
 
     connect();
@@ -76,15 +80,10 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <div class="jobs">
-        <Job v-for="job in jobs" :content="job.content" :jobId="job.jobId" />
+      <div class="jobs accordion" id="jobs-accordion">
+        <Job v-for="job in jobs" :job="job" />
+        <p v-if="noJobs">No jobs</p>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped lang="sass">
-.jobs
-  display: flex
-  flex-direction: column-reverse
-</style>

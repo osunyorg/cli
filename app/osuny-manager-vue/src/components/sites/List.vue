@@ -4,9 +4,11 @@
   import Site from './Site.vue';
   import SortableTh from './SortableTh.vue';
   import { uniq } from '@/utils/uniq.js';
+  import { checkGitStatus } from '@/utils/checkGitStatus.js';
 
   const sites = ref(null);
   const themes = ref([]);
+  const isCheckingAllGitStatus = ref(false);
   // Filter by name
   const filter = ref('');
   // Filter by theme
@@ -28,6 +30,9 @@
         return site.versions?.osuny ?? '';
       case 'hugo':
         return site.versions?.hugo ?? '';
+      case 'gitStatus':
+        if (!site.gitStatus) return '';
+        return site.gitStatus.upToDate ? '2' : '1';
       default:
         return site.name?.toLowerCase() ?? '';
     }
@@ -63,6 +68,12 @@
     themes.value = uniq(tempThemes);
   }
 
+  async function checkAllGitStatus() {
+    isCheckingAllGitStatus.value = true;
+    await Promise.all(sites.value.map((site) => checkGitStatus(site)));
+    isCheckingAllGitStatus.value = false;
+  }
+
   update();
 </script>
 
@@ -85,6 +96,15 @@
         </select>
       </div>
     </div>
+    <div class="col-md-6 d-flex gap-2 justify-content-end">
+      <button type="button" class="btn btn-light btn-sm" @click="checkAllGitStatus" :disabled="isCheckingAllGitStatus || !sites">
+        <span v-if="isCheckingAllGitStatus">checking all sites...</span>
+        <span v-else>check all status</span>
+      </button>
+      <button class="btn btn-light btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-stream">
+        open jobs
+      </button>
+    </div>
   </div>
   <table class="table">
     <thead>
@@ -93,6 +113,7 @@
         <SortableTh label="themes" column="themes" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="osuny" column="osuny" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="hugo" column="hugo" :active-column="sortColumn" @sort="sortBy" />
+        <SortableTh label="status" column="gitStatus" :active-column="sortColumn" @sort="sortBy" />
         <th class="actions">actions</th>
       </tr>
     </thead>

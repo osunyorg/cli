@@ -8,7 +8,6 @@ import CONFIG from './config';
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
     {
       name: 'osuny-manager-server',
       async configureServer(viteServer) {

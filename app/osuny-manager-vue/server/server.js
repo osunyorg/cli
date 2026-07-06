@@ -34,7 +34,13 @@ app.post('/api/sites/compare', async (req, res) => {
 
 app.post('/api/sites/update', async (req, res) => {
   const site = req.body,
-        result = await sitesManager.update(site); 
+        result = await sitesManager.update(site);
+  res.json(result);
+});
+
+app.post('/api/sites/git-status', async (req, res) => {
+  const site = req.body,
+        result = await sitesManager.gitStatus(site);
   res.json(result);
 });
 
