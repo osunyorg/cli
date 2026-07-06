@@ -3,16 +3,20 @@
 const shell = require("shelljs");
 const preferences = require("../data/preferences");
 const os = require('os');
-const updateSite = require("./update");
-const migrateSite = require("./update");
-const cloneSites = require("./clone");
+const app = require("./app");
 const backstop = require("./backstop");
 const backstopFactory = require("./backstopFactory");
+const cloneSites = require("./clone");
+const migrateSite = require("./update");
 const test = require("./test");
 const testFactory = require("./testFactory");
+const updateSite = require("./update");
 
 // commands
 const commands = {
+  "app": function() {
+    app();
+  },
   "clone-all": function(argv) {
     const path = argv[3] || '.';
     cloneSites(path, "all")
