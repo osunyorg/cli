@@ -87,3 +87,8 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="sass">
+.offcanvas
+  width: 600px
+</style>

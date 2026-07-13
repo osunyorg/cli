@@ -64,8 +64,10 @@
       <div class="accordion-body p-0">
         <div class="job-container">
           <pre>{{ props.job.content }}</pre>
-          <button :disabled="!running" class="btn btn-small btn-danger m-2" @click="cancel">Kill</button>
-          <a class="btn btn-small btn-info m-2" target="_blank" v-if="localhostUrl" :href="localhostUrl">Open ↗</a>
+          <div class="job-actions p-2">
+            <button v-if="running" class="btn btn-small btn-danger me-2" @click="cancel">Kill</button>
+            <a class="btn btn-small btn-info" target="_blank" v-if="localhostUrl && running" :href="localhostUrl">Open ↗</a>
+          </div>
         </div>
       </div>
     </div>
@@ -75,29 +77,26 @@
 <style scoped lang="sass">
 .job:last-child
   border-bottom: none
-
 .job-container
-  // max-height: calc(500px)
-  // display: flex
-  flex-direction: column
-  // align-items: end
+  max-height: calc(100vh - 200px)
   overflow-y: auto
   position: relative
-  .btn
-    position: absolute
+  background: black
+  .job-actions
+    position: sticky
     bottom: 0
-    &.btn-info
-      left: 0
-    &.btn-danger
-      right: 0
+    left: 0
+    right: 0
   pre
     margin: 0
     max-width: 100%
     display: block
-    background: black
     white-space: break-spaces
     padding: 1rem 1rem 50px
     flex: 1
     min-height: 100%
+    display: flex
+    align-items: end
+
 
 </style>
