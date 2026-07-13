@@ -2,6 +2,7 @@
   import { ref, watch, onMounted } from 'vue'
   import { Collapse } from 'bootstrap';
   const running = ref(true);
+  const localhostUrl = ref('');
   let bsCollapse = null;
 
   const props = defineProps({
@@ -16,6 +17,7 @@
   });
 
   watch(() => props.job.content, (content) => {
+    watchLocalhostRunUrl(content);
     show();
   });
 
@@ -42,6 +44,13 @@
   function show (){
     bsCollapse.show();
   }
+
+  function watchLocalhostRunUrl (text) {
+    const matches = text.match(/(?:https?:)?\/\/[^\s()]+/);
+    if (matches?.length > 0) {
+      localhostUrl.value = `http:${matches[0]}`; // Add http: to the url
+    }
+  }
 </script>
 
 <template>
@@ -56,6 +65,7 @@
         <div class="job-container">
           <pre>{{ props.job.content }}</pre>
           <button :disabled="!running" class="btn btn-small btn-danger m-2" @click="cancel">Kill</button>
+          <a class="btn btn-small btn-info m-2" target="_blank" v-if="localhostUrl" :href="localhostUrl">Open ↗</a>
         </div>
       </div>
     </div>
@@ -68,14 +78,18 @@
 
 .job-container
   // max-height: calc(500px)
-  display: flex
-  align-items: end
+  // display: flex
+  flex-direction: column
+  // align-items: end
   overflow-y: auto
   position: relative
   .btn
     position: absolute
     bottom: 0
-    right: 0
+    &.btn-info
+      left: 0
+    &.btn-danger
+      right: 0
   pre
     margin: 0
     max-width: 100%
