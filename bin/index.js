@@ -160,7 +160,7 @@ const commands = {
     const path = argv[3] || ".";
     test(path);
   },
-  "test-factory": function() {
+  "test-all": function() {
     testFactory();
   }
 }

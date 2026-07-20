@@ -13,6 +13,8 @@
   const filter = ref('');
   // Filter by theme
   const theme = ref('');
+  // Filter by config
+  const config = ref('');
   // Sort
   const sortColumn = ref('name');
   const sortDirection = ref('asc');
@@ -81,19 +83,24 @@
   <p v-if="!sites">Loading...</p>
 
   <div class="py-2 row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="input-group">
         <span class="input-group-text" id="filter-by-name">Site</span>
         <input type="text" class="form-control" placeholder="Search..." aria-label="Search" v-model="filter">
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="input-group">
         <span class="input-group-text" id="filter-by-theme">Themes</span>
         <select class="form-select" v-model="theme">
           <option value="">All themes</option>
           <option :value="theme" v-for="theme in themes">{{ theme }}</option>
         </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search in config..." aria-label="Search in config" v-model="config">
       </div>
     </div>
     <div class="col-md-6 d-flex gap-2 justify-content-end">
@@ -111,6 +118,7 @@
       <tr>
         <SortableTh label="site" column="name" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="themes" column="themes" :active-column="sortColumn" @sort="sortBy" />
+        <th></th>
         <SortableTh label="osuny" column="osuny" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="hugo" column="hugo" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="status" column="gitStatus" :active-column="sortColumn" @sort="sortBy" />
@@ -118,7 +126,7 @@
       </tr>
     </thead>
     <tbody>
-      <Site v-for="site in sortedSites" :site="site" :filter="filter" :theme="theme" />
+      <Site v-for="site in sortedSites" :site="site" :filter="filter" :config="config" :theme="theme" />
     </tbody>
   </table>
 </template>

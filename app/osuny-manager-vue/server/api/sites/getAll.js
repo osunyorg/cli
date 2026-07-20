@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import CONFIG from '../config';
 import { getUrl } from "./site/getUrl";
+import { getConfig } from "./site/getConfig";
 import { getThemes } from "./site/getThemes";
 import { getVersions } from "./site/getVersions";
 
@@ -17,6 +18,7 @@ async function getSite(name, sitePath) {
     name: name,
     path: sitePath,
     url: await getUrl(sitePath),
+    config: await getConfig(sitePath),
     versions: await getVersions(sitePath),
     themes: themes,
     visible: true

@@ -5,7 +5,8 @@
   const props = defineProps({
     site: Object,
     filter: String,
-    theme: String
+    theme: String,
+    config: String
   });
 
   const isComparing = ref(false);
@@ -14,7 +15,8 @@
   const isVisible = computed(() => {
     const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
     const matchesTheme = !props.theme || props.site.themes.some(theme => theme.name === props.theme);
-    return matchesFilter && matchesTheme;
+    const matchesConfig = handleSearchWithNot();
+    return matchesFilter && matchesTheme && matchesConfig;
   });
 
   const gitStatusTitle = computed(() => {
@@ -32,6 +34,18 @@
       ...gitStatus.submodules.map((submodule) => describe(submodule.name, submodule)),
     ].join('\n');
   });
+
+  function handleSearchWithNot() {
+    const isNot = props.config.includes("NOT "),
+          searchInConfig = props.config.replace("NOT ", ""),
+          result = props.site.config.includes(searchInConfig);
+
+    if (!props.config) {
+      return true;
+    }
+
+    return isNot ? !result : result;
+  }
 
   function run() {
     fetch('/api/sites/run', {
@@ -84,6 +98,11 @@
       <span class="badge rounded-pill bg-light text-dark me-1" v-for="theme in site.themes">
         {{ theme.name }}
       </span>
+    </td>
+    <td>
+      <pre v-if="config">
+        {{ site.config }}
+      </pre>
     </td>
     <td>
       <span class="badge rounded-pill" v-if="site.versions?.osuny">{{ site.versions.osuny }}</span>
