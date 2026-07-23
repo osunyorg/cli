@@ -119,7 +119,7 @@
       </button>
     </div> 
   </div>
-  <table class="table table-hover">
+  <table class="table table-responsive table-hover">
     <thead>
       <tr>
         <SortableTh label="site" column="name" :active-column="sortColumn" @sort="sortBy" />

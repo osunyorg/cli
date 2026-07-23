@@ -6,7 +6,7 @@
 <template>
   <div class="navbar">
     <div class="container-fluid">
-      <div class="navbar-brand">Osuny Manager</div>
+      <div class="navbar-brand">osuny shepherd 🐑</div>
     </div>
   </div>
 
