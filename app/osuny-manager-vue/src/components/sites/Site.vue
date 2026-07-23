@@ -11,6 +11,7 @@
 
   const isComparing = ref(false);
   const isUpdating = ref(false);
+  const showConfig = ref(false);
 
   const isVisible = computed(() => {
     const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
@@ -100,7 +101,13 @@
       </span>
     </td>
     <td>
-      <pre v-if="config">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" v-model="showConfig" id="{{ site }}-show-config">
+        <label class="form-check-label" for="{{ site }}-show-config">
+          config
+        </label>
+      </div>
+      <pre class="site-config" v-if="showConfig">
         {{ site.config }}
       </pre>
     </td>
@@ -145,4 +152,7 @@
     justify-content: end
     gap: 20px
     white-space: nowrap
+  .site-config
+    background: black
+    padding: 10px
 </style>
