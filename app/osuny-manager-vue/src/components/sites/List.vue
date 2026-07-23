@@ -81,39 +81,45 @@
 
 <template>
   <p v-if="!sites">Loading...</p>
-
   <div class="py-2 row">
-    <div class="col-md-2">
-      <div class="input-group">
-        <span class="input-group-text" id="filter-by-name">Site</span>
-        <input type="text" class="form-control" placeholder="Search..." aria-label="Search" v-model="filter">
-      </div>
+    <div class="col-md-10">
+      <ul class="nav gap-2">
+        <li class="nav-item">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Search by name..." aria-label="Search" v-model="filter">
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="input-group">
+            <select class="form-select form-select-sm" v-model="theme">
+              <option value="">All themes</option>
+              <option :value="theme" v-for="theme in themes">{{ theme }}</option>
+            </select>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Search in config..." aria-label="Search in config" v-model="config">
+          </div>
+        </li>
+      </ul>
     </div>
-    <div class="col-md-2">
-      <div class="input-group">
-        <span class="input-group-text" id="filter-by-theme">Themes</span>
-        <select class="form-select" v-model="theme">
-          <option value="">All themes</option>
-          <option :value="theme" v-for="theme in themes">{{ theme }}</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search in config..." aria-label="Search in config" v-model="config">
-      </div>
-    </div>
-    <div class="col-md-6 d-flex gap-2 justify-content-end">
+    <div class="col-md-2 d-flex gap-2 justify-content-end">
+      <!--
       <button type="button" class="btn btn-light btn-sm" @click="checkAllGitStatus" :disabled="isCheckingAllGitStatus || !sites">
         <span v-if="isCheckingAllGitStatus">checking all sites...</span>
         <span v-else>check all status</span>
       </button>
+      -->
       <button class="btn btn-light btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-stream">
         open jobs
       </button>
-    </div>
+      <button class="btn btn-light btn-sm" type="button" @click="update()">
+        refresh list
+      </button>
+    </div> 
   </div>
-  <table class="table">
+  <table class="table table-hover">
     <thead>
       <tr>
         <SortableTh label="site" column="name" :active-column="sortColumn" @sort="sortBy" />

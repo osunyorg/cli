@@ -91,4 +91,7 @@
 <style scoped lang="sass">
 .offcanvas
   width: 600px
+.jobs
+  display: flex
+  flex-direction: column-reverse
 </style>
