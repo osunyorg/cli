@@ -18,6 +18,4 @@ export async function getConfig(sitePath) {
       return "";
     }
   }
-
-  return "";
 }

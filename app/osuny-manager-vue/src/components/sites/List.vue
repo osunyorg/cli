@@ -124,11 +124,10 @@
       <tr>
         <SortableTh label="site" column="name" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="themes" column="themes" :active-column="sortColumn" @sort="sortBy" />
-        <th></th>
         <SortableTh label="osuny" column="osuny" :active-column="sortColumn" @sort="sortBy" />
         <SortableTh label="hugo" column="hugo" :active-column="sortColumn" @sort="sortBy" />
-        <SortableTh label="status" column="gitStatus" :active-column="sortColumn" @sort="sortBy" />
-        <th class="actions">actions</th>
+        <!-- <SortableTh label="status" column="gitStatus" :active-column="sortColumn" @sort="sortBy" /> -->
+        <th>actions</th>
       </tr>
     </thead>
     <tbody>
@@ -137,7 +136,3 @@
   </table>
 </template>
 
-<style scoped lang="sass">
-  .actions
-    text-align: right
-</style>

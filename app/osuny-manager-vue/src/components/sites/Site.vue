@@ -1,6 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import { checkGitStatus } from '@/utils/checkGitStatus.js';
+import Config from './site/Config.vue';
 
   const props = defineProps({
     site: Object,
@@ -11,7 +12,6 @@
 
   const isComparing = ref(false);
   const isUpdating = ref(false);
-  const showConfig = ref(false);
 
   const isVisible = computed(() => {
     const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
@@ -101,23 +101,12 @@
       </span>
     </td>
     <td>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" v-model="showConfig" id="{{ site }}-show-config">
-        <label class="form-check-label" for="{{ site }}-show-config">
-          config
-        </label>
-      </div>
-      <pre class="site-config" v-if="showConfig">
-        {{ site.config }}
-      </pre>
-    </td>
-    <td>
       <span class="badge rounded-pill" v-if="site.versions?.osuny">{{ site.versions.osuny }}</span>
     </td>
     <td>
       <span class="badge rounded-pill" v-if="site.versions?.hugo">{{ site.versions.hugo }}</span>
     </td>
-    <td>
+    <!-- <td>
       <span v-if="site.checkingGitStatus">checking...</span>
       <span
         v-else-if="site.gitStatus"
@@ -128,9 +117,9 @@
         {{ site.gitStatus.upToDate ? 'up to date' : 'outdated' }}
       </span>
       <button v-else type="button" class="btn btn-light btn-sm" @click="checkStatus">check</button>
-    </td>
+    </td> -->
     <td>
-      <div class="actions">
+      <div class="actions d-flex gap-1">
         <button type="button" class="btn btn-light btn-sm" @click="code">code</button>
         <button type="button" class="btn btn-light btn-sm" @click="run">run</button>
         <button type="button" class="btn btn-light btn-sm" @click="update">
@@ -141,18 +130,9 @@
           <span v-if="isComparing">comparing...</span>
           <span v-else>compare</span>
         </button>
+        <Config :site="site"/>
       </div>
     </td>
   </tr>
 </template>
 
-<style scoped lang="sass">
-  .actions
-    display: flex
-    justify-content: end
-    gap: 20px
-    white-space: nowrap
-  .site-config
-    background: black
-    padding: 10px
-</style>
