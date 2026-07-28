@@ -57,7 +57,8 @@
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#${props.job.id}`" aria-expanded="true" :aria-controls="props.job.id">
-        {{ props.job.id }}
+        <small>{{ props.job.id }}</small> 
+        <span v-if="running" class="badge rounded-pill text-bg-success">running...</span>
       </button>
     </h2>
     <div :id="props.job.id" class="accordion-collapse collapse" data-bs-parent="#jobs-accordion">
@@ -78,7 +79,7 @@
 .job:last-child
   border-bottom: none
 .job-container
-  max-height: calc(100vh - 200px)
+  max-height: calc(100vh - 250px)
   overflow-y: auto
   position: relative
   background: black
