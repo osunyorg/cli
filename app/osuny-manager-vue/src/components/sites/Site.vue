@@ -12,6 +12,7 @@ import Config from './site/Config.vue';
 
   const isComparing = ref(false);
   const isUpdating = ref(false);
+  const isUpdatingProduction = ref(false);
 
   const isVisible = computed(() => {
     const matchesFilter = !props.filter || props.site.name.toLowerCase().includes(props.filter.toLowerCase());
@@ -84,6 +85,16 @@ import Config from './site/Config.vue';
     isUpdating.value = false;
   }
 
+  async function updateProduction() {
+    isUpdatingProduction.value = true;
+    await fetch('/api/sites/update-production', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(props.site),
+    });
+    isUpdatingProduction.value = false;
+  }
+
   function checkStatus() {
     checkGitStatus(props.site);
   }
@@ -125,6 +136,10 @@ import Config from './site/Config.vue';
         <button type="button" class="btn btn-light btn-sm" @click="update">
           <span v-if="isUpdating">updating...</span>
           <span v-else>update</span>
+        </button>
+        <button type="button" class="btn btn-light btn-sm" @click="updateProduction">
+          <span v-if="isUpdatingProduction">updating production...</span>
+          <span v-else>update production</span>
         </button>
         <button type="button" class="btn btn-light btn-sm" @click="compare">
           <span v-if="isComparing">comparing...</span>

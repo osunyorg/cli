@@ -38,6 +38,12 @@ app.post('/api/sites/update', async (req, res) => {
   res.json(result);
 });
 
+app.post('/api/sites/update-production', async (req, res) => {
+  const site = req.body,
+        result = await sitesManager.updateProduction(site);
+  res.json(result);
+});
+
 app.post('/api/sites/git-status', async (req, res) => {
   const site = req.body,
         result = await sitesManager.gitStatus(site);
