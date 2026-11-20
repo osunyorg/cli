@@ -73,7 +73,7 @@ async function changeBranch(branch) {
 async function backstopAction ({
         path = ".",
         paths = "",
-        branch = "",
+        branch = null,
         callback = null,
         configName = "default"
     }) {
@@ -90,6 +90,8 @@ async function backstopAction ({
 
     if (branch) {
         await changeBranch(branch);
+    } else {
+        console.log('no branch specified')
     }
 
     config.scenarios.forEach(scenario => {
@@ -105,7 +107,7 @@ async function backstopAction ({
 
     const hugoServer = shell.exec(`hugo serve -p ${HUGO_SERVER_PORT} --minify`, { async: true, silent: true });
     hugoServer.stdout.on('data', async function(data) {
-        if (data.indexOf(`Web Server is available at //localhost:${HUGO_SERVER_PORT}/`) > -1) {
+        if (data.indexOf(`Web Server is available at http://localhost:${HUGO_SERVER_PORT}/`) > -1) {
             await referenceAndTest(paths, config);
             shell.exec(`kill -9 $(lsof -t -i:${HUGO_SERVER_PORT})`, {silent: true});
             coloredLog.success(`SUCCESS : ${path}`)

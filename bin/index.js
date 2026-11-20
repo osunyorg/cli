@@ -139,7 +139,7 @@ const commands = {
   "backstop": function(argv) {
     const path = argv[3] || ".";
     const pages = argv[4] || "";
-    const branch = argv[5] || "";
+    const branch = argv[5] || null;
     backstop({
       path: path,
       paths: pages,

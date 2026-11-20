@@ -2,8 +2,8 @@ const shell = require("shelljs");
 
 module.exports = function (path, push = false, showHint = true) {
   shell.cd(path)
-  shell.exec('git checkout main \;', {silent: true})
-  shell.exec('git pull origin main --recurse-submodules \;', {silent: true})
+  shell.exec('git checkout main --force \;', {silent: true})
+  shell.exec('git pull origin main --recurse-submodules  --force \;', {silent: true})
 
   // Updates all themes
   shell.cd('themes')
@@ -21,4 +21,7 @@ module.exports = function (path, push = false, showHint = true) {
   } else if (showHint) {
     console.log('If you want to publish the updated theme use "-p" or "--push" option')
   }
+
+  console.log(`website updated`)
+
 }
