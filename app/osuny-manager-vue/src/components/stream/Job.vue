@@ -46,9 +46,9 @@
   }
 
   function watchLocalhostRunUrl (text) {
-    const matches = text.match(/(?:https?:)?\/\/[^\s()]+/);
+    const matches = text.match(/localhost:(\d+)/);
     if (matches?.length > 0) {
-      localhostUrl.value = `http:${matches[0]}`; // Add http: to the url
+      localhostUrl.value = `http://${matches[0]}`; // Add http: to the url
     }
   }
 </script>
