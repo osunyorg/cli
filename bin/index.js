@@ -172,4 +172,5 @@ if (commands[command]) {
   commands[command](process.argv);
 } else {
   console.log(`Osuny command doesn't exist ${command}`);
+  Object.keys(commands).forEach(command => console.log(command))
 }
